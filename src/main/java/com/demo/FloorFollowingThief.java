@@ -77,7 +77,6 @@ public class FloorFollowingThief extends Thief {
                 setDirection(KeyCode.DOWN);
             }
         }
-//dd
     }
 
 
