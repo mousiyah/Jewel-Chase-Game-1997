@@ -72,12 +72,16 @@ public class Controller {
     @FXML
     Button pauseGameBtn;
 
+    @FXML
+    Button saveGameStateBtn;
+
 
     @FXML
     public void resumeGame(ActionEvent event) {
         Main.level.resumeGame();
         pauseGameBtn.setDisable(false);
         resumeGameBtn.setDisable(true);
+        saveGameStateBtn.setDisable(true);
     }
 
     @FXML
@@ -85,6 +89,12 @@ public class Controller {
         Main.level.pauseGame();
         pauseGameBtn.setDisable(true);
         resumeGameBtn.setDisable(false);
+        saveGameStateBtn.setDisable(false);
+    }
+
+    @FXML
+    public void saveGameState(ActionEvent event) {
+
     }
 
     @FXML
