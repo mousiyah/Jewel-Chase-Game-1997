@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="100.0" maxWidth="1050.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <GridPane alignment="CENTER" hgap="30.0" layoutX="2.0" maxHeight="100.0" maxWidth="1119.0" prefHeight="100.0" prefWidth="1050.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="515.6666870117188" minWidth="10.0" prefWidth="187.33336385091144" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="880.0000101725259" minWidth="10.0" prefWidth="328.66668701171875" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="374.0" minWidth="0.0" prefWidth="105.33331298828125" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="358.66668701171875" minWidth="0.0" prefWidth="90.33331298828125" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="358.66668701171875" minWidth="12.999959309895871" prefWidth="98.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="358.66668701171875" minWidth="63.33331298828125" prefWidth="98.66664632161462" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="29.333341598510742" minHeight="10.0" prefHeight="18.666685104370117" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="70.00001017252605" minHeight="10.0" prefHeight="55.99997965494792" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="26.333343505859375" minHeight="9.666656494140625" prefHeight="24.00002034505208" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox alignment="CENTER" prefHeight="69.0" prefWidth="175.0" GridPane.rowIndex="1">
+               <children>
+                  <Text fill="WHITE" stroke="#96afc3" strokeType="OUTSIDE" strokeWidth="0.0" text="score:" wrappingWidth="111.9912109375">
+                     <font>
+                        <Font name="Comic Sans MS Bold" size="18.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Text>
+                  <Pane maxHeight="30.0" maxWidth="110.0" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: #3fa45a; -fx-border-color: white; -fx-border-width: 2; -fx-border-radius: 2; -fx-background-radius: 2;">
+                     <children>
+                        <Text fx:id="score" fill="WHITE" layoutX="72.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00">
+                           <font>
+                              <Font name="Arial Rounded MT Bold" size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </Pane>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="56.0" prefWidth="375.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="time left:" wrappingWidth="297.27963519096375">
+                     <font>
+                        <Font name="Arial Rounded MT Bold" size="18.0" />
+                     </font>
+                  </Text>
+                  <ProgressBar fx:id="progressBar" maxWidth="300.0" minHeight="30.0" prefHeight="30.0" prefWidth="300.0" progress="1.0" style="-fx-accent: #3fa45a;" />
+               </children>
+               <padding>
+                  <Insets top="3.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="62.0" prefWidth="73.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+               <children>
+                  <Button fx:id="resumeGameBtn" disable="true" mnemonicParsing="false" onAction="#resumeGame" style="-fx-background-color: transparent;">
+                     <graphic>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/playbtn.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="62.0" prefWidth="73.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <children>
+                  <Button fx:id="pauseGameBtn" mnemonicParsing="false" onAction="#pauseGame" style="-fx-background-color: transparent;">
+                     <graphic>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/pausebtn.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="62.0" prefWidth="73.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#replay" style="-fx-background-color: transparent;">
+                     <graphic>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/replaybtn.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="62.0" prefWidth="73.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#goHome" style="-fx-background-color: transparent;">
+                     <graphic>
+                        <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@img/homebtn.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+   </children>
+</Pane>
