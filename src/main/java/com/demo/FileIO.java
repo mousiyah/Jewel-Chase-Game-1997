@@ -14,8 +14,23 @@ public abstract class FileIO {
     public static ArrayList<String> readLevel (int levelNumber) {
         data = new ArrayList<>();
         try {
-            File levelFile = new File("data/" + "level" + levelNumber + ".txt");
+            File levelFile = new File("data/levels/" + "level" + levelNumber + ".txt");
             Scanner in = new Scanner(levelFile);
+            while (in.hasNextLine()) {
+                data.add(in.nextLine());
+            }
+            in.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred while reading level file.");
+        }
+
+        return data;
+    }
+
+    public static ArrayList<String> readLevelState (File file) {
+        data = new ArrayList<>();
+        try {
+            Scanner in = new Scanner(file);
             while (in.hasNextLine()) {
                 data.add(in.nextLine());
             }
@@ -72,6 +87,60 @@ public abstract class FileIO {
         reader.close();
         file.delete();
         temp.renameTo(file);
+    }
+
+    public static void writeProfiles() {
+        try {
+            PrintWriter file = new PrintWriter("data/profiles.txt");
+            file.print("");
+            for (int i = 0; i < Main.profiles.size(); i++) {
+                file.write("%user% " + Main.profiles.get(i).getName() + " "
+                        + Main.profiles.get(i).getMaxLevelUnlocked() + " "
+                        + Main.profiles.get(i).getScore());
+                file.write("\n");
+            }
+            file.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred while updating profiles file");
+        }
+    }
+
+    public static void writeLevelState(ArrayList<String> levelData, Profile profile) {
+        try {
+            FileWriter fileWriter = new FileWriter("data/levelStates/"
+                    + profile.getName() + Main.level.levelNumber + ".txt");
+            for (int i = 0; i < levelData.size(); i++) {
+                fileWriter.write(levelData.get(i));
+                fileWriter.write("\n");
+            }
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred while saving the game state");
+        }
+    }
+
+    public static File levelStateExists(String username, String levelNum) {
+        File file = new File("data/levelStates/" + username + levelNum + ".txt");
+        if(file.exists() && !file.isDirectory()) {
+            return file;
+        }
+        return null;
+    }
+
+    public static void deleteAllLevelStates(String username) {
+        for (int i = 1; i <= Main.LEVELS; i ++) {
+            File file = new File("data/levelStates/" + username + i + ".txt");
+            if(file.exists() && !file.isDirectory()) {
+                file.delete();
+            }
+        }
+    }
+
+    public static void deleteLevelState(String username, int levelNum) {
+        File file = new File("data/levelStates/" + username + levelNum + ".txt");
+        if(file.exists() && !file.isDirectory()) {
+            file.delete();
+        }
     }
 
 }

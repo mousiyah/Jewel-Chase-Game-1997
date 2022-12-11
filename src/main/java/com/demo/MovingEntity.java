@@ -45,10 +45,10 @@ public abstract class MovingEntity extends Entity {
 
     public static KeyCode getKeyCodeFromString(String key) {
         return switch (key) {
-            case "up" -> KeyCode.UP;
-            case "down" -> KeyCode.DOWN;
-            case "left" -> KeyCode.LEFT;
-            case "right" -> KeyCode.RIGHT;
+            case "UP" -> KeyCode.UP;
+            case "DOWN" -> KeyCode.DOWN;
+            case "LEFT" -> KeyCode.LEFT;
+            case "RIGHT" -> KeyCode.RIGHT;
             default -> null;
         };
     }
