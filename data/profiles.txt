@@ -1,3 +1,2 @@
-%user% candy 1 9
+%user% candy 2 30
 %user% musi 1 24
-%user% rr 1 0
