@@ -8,6 +8,8 @@ public class Profile {
 
     public Profile(String name) throws IOException {
         this.name = name;
+        maxLevelUnlocked = 1;
+        score = 0;
         saveProfileData();
     }
 
