@@ -7,7 +7,9 @@ public class Lever extends Item {
         setTypes(new String[]{"blue", "green", "red"});
     }
 
-    public Lever() {}
+    public Lever() {
+        setTypes(new String[]{"blue", "green", "red"});
+    }
 
     @Override
     public boolean getCollected() {

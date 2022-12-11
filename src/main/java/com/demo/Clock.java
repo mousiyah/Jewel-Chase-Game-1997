@@ -16,13 +16,13 @@ public class Clock extends Item {
 
     @Override
     public boolean beStolen() {
-        Time.setTimeLeft(Time.getTimeLeft() - TIME);
+        LevelTimer.setTimeLeft(LevelTimer.getTimeLeft() - TIME);
         return true;
     }
 
     @Override
     public void activate() {
-        Time.setTimeLeft(Time.getTimeLeft() + TIME);
+        LevelTimer.setTimeLeft(LevelTimer.getTimeLeft() + TIME);
     }
 
 }

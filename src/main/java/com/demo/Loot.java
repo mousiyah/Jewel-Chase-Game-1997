@@ -12,7 +12,9 @@ public class Loot extends Item {
         setTypes(new String[]{"dollar", "gold", "ruby", "diamond"});
     }
 
-    public Loot(){}
+    public Loot(){
+        setTypes(new String[]{"dollar", "gold", "ruby", "diamond"});
+    }
 
     @Override
     public boolean getCollected() {

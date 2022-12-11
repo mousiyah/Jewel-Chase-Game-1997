@@ -1,10 +1,10 @@
 package com.demo;
 
-public class Time {
+public class LevelTimer {
     private static int timeLeft;
     private static int timeLimit;
 
-    public Time(int timeLimit) {
+    public LevelTimer(int timeLimit) {
         setTimeLimit(timeLimit);
         setTimeLeft(timeLimit);
     }
@@ -14,7 +14,7 @@ public class Time {
     }
 
     public static void setTimeLeft(int timeLeft) {
-        Time.timeLeft = timeLeft;
+        LevelTimer.timeLeft = timeLeft;
     }
 
     public static int getTimeLimit() {
@@ -22,6 +22,6 @@ public class Time {
     }
 
     public static void setTimeLimit(int timeLimit) {
-        Time.timeLimit = timeLimit;
+        LevelTimer.timeLimit = timeLimit;
     }
 }

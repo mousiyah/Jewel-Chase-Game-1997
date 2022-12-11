@@ -9,6 +9,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -36,6 +37,8 @@ public class Controller {
     @FXML
     protected void updateScore() {
         levelScore.setText(Integer.toString(Score.getScore()));
+        Main.currentProfile.setScore(Main.currentProfile.getScore()+Score.getScore());
+        Profile.updateProfilesData();
     }
 
     @FXML
@@ -49,13 +52,19 @@ public class Controller {
     @FXML
     public void replay(ActionEvent event) throws IOException {
         Main.level.stopGame();
-        Main.playLevel(Main.currentLevel);
+        Main.openLevel(Main.currentLevel);
+        FileIO.deleteLevelState(Main.currentProfile.getName(),
+                Main.currentLevel);
     }
 
     @FXML
     public void nextLevel(ActionEvent event) throws IOException {
-        Main.currentLevel++;
-        Main.playLevel(Main.currentLevel);
+        if (Main.currentLevel <= Main.LEVELS) {
+            Main.currentLevel++;
+            Main.currentProfile.setMaxLevelUnlocked(Main.currentLevel);
+            Profile.updateProfilesData();
+            Main.openLevel(Main.currentLevel);
+        }
     }
 
     @FXML
@@ -93,8 +102,9 @@ public class Controller {
     }
 
     @FXML
-    public void saveGameState(ActionEvent event) {
-
+    public void saveGameState(ActionEvent event) throws IOException {
+        Main.saveGameState();
+        goHome(event);
     }
 
     @FXML
@@ -126,6 +136,7 @@ public class Controller {
     public void deleteUser() throws IOException {
         if (usersList.getSelectionModel().getSelectedItem() != null) {
             Main.deleteProfile((String) usersList.getSelectionModel().getSelectedItem());
+            FileIO.deleteAllLevelStates((String) usersList.getSelectionModel().getSelectedItem());
             Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlUsers)));
             Main.setProfilesList(usersList);
         }
@@ -175,7 +186,20 @@ public class Controller {
     @FXML
     public void openLevel(ActionEvent event) throws IOException {
         Button levelBtn = (Button) event.getTarget();
-        Main.playLevel(Integer.parseInt(levelBtn.getId().replaceAll("levelbtn", "")));
+        int levelNum = Integer.parseInt(levelBtn.getId().
+                replaceAll("levelbtn", ""));
+
+        File file = null;
+        if (Main.currentProfile != null) {
+            file = FileIO.levelStateExists(Main.currentProfile.getName(),
+                    String.valueOf(levelNum));
+        }
+
+        if (file == null) {
+            Main.openLevel(levelNum);
+        } else {
+            Main.playGameFromSavedState(file, levelNum);
+        }
     }
 
 }

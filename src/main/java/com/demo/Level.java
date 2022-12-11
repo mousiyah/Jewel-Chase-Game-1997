@@ -17,14 +17,13 @@ import javafx.util.Duration;
 import javafx.util.Pair;
 
 import java.io.IOException;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Level {
 
-    private final int CANVAS_WIDTH;
-    private final int CANVAS_HEIGHT;
+    private int canvasHeight;
+    private int canvasWidth;
 
     private Canvas canvas;
 
@@ -34,16 +33,17 @@ public class Level {
     public boolean isWon;
     public boolean isLost;
 
-    private ArrayList<String> data;
+    private ArrayList<String> levelData;
+    private ArrayList<String> levelState;
     private Tile[][] tiles;
 
     private Player player;
-    private ArrayList<MovingEntity> movingEntities = new ArrayList<>();
+    private ArrayList<MovingEntity> movingEntities;
 
     private Door door;
     Pair <Integer, Integer> randomCoordinates;
 
-    private Time time;
+    private LevelTimer levelTimer;
     private Timeline gameTimeline;
     private Timeline drawTimeline;
     public static EventHandler<KeyEvent> keyEventHandler;
@@ -54,30 +54,56 @@ public class Level {
         this.levelNumber = levelNumber;
 
         // Read level file
-        data = FileIO.readLevel(levelNumber);
+        levelData = FileIO.readLevel(levelNumber);
 
+        initializeLevel(levelData);
 
+        initializeMovingEntities(levelData);
+        initializeItems();
+        setImg();
+        tick();
+    }
+
+    public Level(int levelNumber, ArrayList<String> savedData) {
+
+        this.levelNumber = levelNumber;
+
+        // Read level file
+        levelData = FileIO.readLevel(levelNumber);
+
+        initializeLevel(savedData);
+
+        LevelTimer.setTimeLeft(Integer.parseInt(savedData.get(height+2).split(" ")[1]));
+        Score.setScore(Integer.parseInt(savedData.get(height+3).split(" ")[1]));
+
+        initializeMovingEntities(savedData);
+        initializeSavedItems(savedData);
+        setImg();
+        tick();
+    }
+
+    public void initializeLevel(ArrayList<String> data) {
         // level width and height in tiles
         width = Integer.parseInt(data.get(0).split(" ")[0]);
         height = Integer.parseInt(data.get(0).split(" ")[1]);
 
         // set time limit
-        time = new Time(Integer.parseInt(data.get(1)));
+        levelTimer = new LevelTimer(Integer.parseInt(data.get(1)));
         tiles = new Tile[height][width];
 
-        CANVAS_WIDTH = Tile.TILE_SIZE * getWidth();
-        CANVAS_HEIGHT =  Tile.TILE_SIZE * getHeight();
+        canvasHeight = Tile.TILE_SIZE * getWidth();
+        canvasWidth =  Tile.TILE_SIZE * getHeight();
 
-        initializeTiles();
-        initializeEntities();
-        tick();
+        initializeTiles(data);
+        Entity.setTiles(tiles);
     }
+
 
     public void tick() {
         setGameTimeline(new Timeline(new KeyFrame(Duration.seconds(1),
                 event -> {
-                    Time.setTimeLeft(Time.getTimeLeft()-1); // -1
-                    Main.controller.changeProgressBar(Time.getTimeLeft(), Time.getTimeLimit());
+                    LevelTimer.setTimeLeft(LevelTimer.getTimeLeft()-1); // -1
+                    Main.controller.changeProgressBar(LevelTimer.getTimeLeft(), LevelTimer.getTimeLimit());
 
                 })));
         getGameTimeline().setCycleCount(Timeline.INDEFINITE);
@@ -166,7 +192,7 @@ public class Level {
 
     public void checkGameState() {
         checkCollusion();
-        if (player.isDead() || Time.getTimeLeft() < 0 || door.isClosedForever()) {
+        if (player.isDead() || LevelTimer.getTimeLeft() < 0 || door.isClosedForever()) {
             setLost(true);
         }
         if (Door.noLootsAndGatesLeft()) {
@@ -178,7 +204,7 @@ public class Level {
     }
 
     private Pane buildCanvas() throws IOException {
-        canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
+        canvas = new Canvas(canvasHeight, canvasWidth);
         BorderPane canvasPane = new BorderPane();
         canvasPane.setCenter(canvas);
         canvas.setId("canvas");
@@ -197,28 +223,45 @@ public class Level {
         }
     }
 
-    public void initializeEntities() {
-        Entity.setTiles(tiles);
+    public void initializeMovingEntities(ArrayList<String> data) {
+        movingEntities = new ArrayList<>();
 
         // 3 = starting point to read entities
-        for(int i = height+3; i < data.size(); i++) {
+        for(int i = height; i < data.size(); i++) {
             switch (data.get(i).split(" ")[0]) {
-                case "P" -> initializePlayer(i);
-                case "door" -> initializeDoor(i);
-                case "FA" -> initializeMovingEntities(i, new FlyingAssassin());
-                case "FFT" -> initializeMovingEntities(i, new FloorFollowingThief());
-                case "ST" -> initializeMovingEntities(i, new SmartThief());
-                case "loot" -> initializeItems(i, new Loot());
-                case "gate" -> initializeItems(i, new Gate());
-                case "bomb" -> initializeItems(i, new Bomb());
-                case "clock" -> initializeItems(i, new Clock());
-                case "lever" -> initializeItems(i, new Lever());
+                case "P" -> initializePlayer(i, data);
+                case "door" -> initializeDoor(i, data);
+                case "FA" -> initializeMovingEntity(i, new FlyingAssassin(), data);
+                case "FFT" -> initializeMovingEntity(i, new FloorFollowingThief(), data);
+                case "ST" -> initializeMovingEntity(i, new SmartThief(), data);
             }
         }
-
-        setImg();
     }
 
+
+    public void initializeItems() {
+        for(int i = height; i < levelData.size(); i++) {
+            switch (levelData.get(i).split(" ")[0]) {
+                case "loot" -> initializeRandomItem(i, new Loot());
+                case "gate" -> initializeRandomItem(i, new Gate());
+                case "bomb" -> initializeRandomItem(i, new Bomb());
+                case "clock" -> initializeRandomItem(i, new Clock());
+                case "lever" -> initializeRandomItem(i, new Lever());
+            }
+        }
+    }
+
+    public void initializeSavedItems(ArrayList<String> savedData) {
+        for(int i = height; i < savedData.size(); i++) {
+            switch (savedData.get(i).split(" ")[0]) {
+                case "loot" -> initializeSavedItem(i, new Loot(), savedData);
+                case "gate" -> initializeSavedItem(i, new Gate(), savedData);
+                case "bomb" -> initializeSavedItem(i, new Bomb(), savedData);
+                case "clock" -> initializeSavedItem(i, new Clock(), savedData);
+                case "lever" -> initializeSavedItem(i, new Lever(), savedData);
+            }
+        }
+    }
 
     private void drawTiles(GraphicsContext gc) {
         for(int i = 0; i < height; i++){
@@ -242,7 +285,7 @@ public class Level {
     }
 
 
-    private void initializeTiles() {
+    private void initializeTiles(ArrayList<String> data) {
         for(int i = 0; i < height; i++){
             for(int j = 0; j < width; j++){
                 tiles[i][j] = new Tile(data.get(2+i).split(" ")[j], i, j);
@@ -250,11 +293,12 @@ public class Level {
         }
     }
 
-    private void initializeMovingEntities(int row, MovingEntity movingEntity) {
+    private void initializeMovingEntity(int row, MovingEntity movingEntity,
+                                          ArrayList<String> data) {
         String direction = data.get(row).split(" ")[1];
         String colorToFollow = data.get(row).split(" ")[2];
-        int x = Integer.parseInt(data.get(row).split(" ")[3])-1;
-        int y = Integer.parseInt(data.get(row).split(" ")[4])-1;
+        int x = Integer.parseInt(data.get(row).split(" ")[3]);
+        int y = Integer.parseInt(data.get(row).split(" ")[4]);
 
         if (!colorToFollow.equals("null")) {
             movingEntity.setColorToFollow(colorToFollow);
@@ -269,9 +313,25 @@ public class Level {
         movingEntity.tick();
     }
 
-    private void initializeItems(int row, Item item) {
-        int n = Integer.parseInt(data.get(row).split(" ")[2]);
+    private void initializeSavedItem(int row, Item item,
+                                     ArrayList<String> data) {
         String type = data.get(row).split(" ")[1];
+        int x = Integer.parseInt(data.get(row).split(" ")[2]);
+        int y = Integer.parseInt(data.get(row).split(" ")[3]);
+
+        item.setPositions(x, y);
+        item.setType(type);
+        tiles[y][x].setItem(item);
+        if (item instanceof Bomb) {
+            setBombAreas(x, y);
+        }
+
+        Tile.getAllObjectsCoordinates().add(new Pair(x,y));
+    }
+
+    private void initializeRandomItem(int row, Item item) {
+        int n = Integer.parseInt(levelData.get(row).split(" ")[2]);
+        String type = levelData.get(row).split(" ")[1];
         int x, y;
 
         for (int i = 0; i < n; i++) {
@@ -327,15 +387,15 @@ public class Level {
         return x < 0 || x >= tiles[0].length || y < 0 || y >= tiles.length;
     }
 
-    private void initializePlayer(int row) {
-        int x = Integer.parseInt(data.get(row).split(" ")[1])-1;
-        int y = Integer.parseInt(data.get(row).split(" ")[2])-1;
+    private void initializePlayer(int row, ArrayList<String> data) {
+        int x = Integer.parseInt(data.get(row).split(" ")[1]);
+        int y = Integer.parseInt(data.get(row).split(" ")[2]);
         player = new Player();
         player.setPositions(x, y);
         Tile.getAllObjectsCoordinates().add(new Pair(x,y));
     }
 
-    public void initializeDoor(int row) {
+    public void initializeDoor(int row, ArrayList<String> data) {
         int x = Integer.parseInt(data.get(row).split(" ")[1]);
         int y = Integer.parseInt(data.get(row).split(" ")[2]);
 
@@ -352,6 +412,62 @@ public class Level {
             y = (int) (Math.random() * height);
         } while(Tile.getAllObjectsCoordinates().contains(new Pair(x,y)));
         return new Pair<>(x, y);
+    }
+
+    public void saveLevelState(Profile profile) {
+        levelState = new ArrayList<>();
+        levelState.add(width + " " + height);
+
+        levelState.add(String.valueOf(LevelTimer.getTimeLimit()));
+        for (int i = 0; i < height; i++) {
+            levelState.add(levelData.get(i+2));
+        }
+
+        levelState.add("timeLeft " + LevelTimer.getTimeLeft());
+        levelState.add("score " + Score.getScore());
+
+        levelState.add("P" + " " + player.getX() + " " + player.getY());
+        levelState.add("door" + " " + door.getX() + " " + door.getY());
+
+        String movingEntityData = "";
+        for (MovingEntity movingEntity: movingEntities) {
+            if (movingEntity instanceof FlyingAssassin) {
+                movingEntityData = ("FA");
+            } else if (movingEntity instanceof FloorFollowingThief) {
+                movingEntityData = ("FFT");
+            }if (movingEntity instanceof SmartThief) {
+                movingEntityData = ("ST");
+            }
+            movingEntityData += " " + movingEntity.getDirection();
+            movingEntityData += " " + movingEntity.getColorToFollow();
+            movingEntityData += " " + movingEntity.getX() + " " + movingEntity.getY();
+            levelState.add(movingEntityData);
+        }
+
+        String itemData = "";
+        for (int i = 0; i < tiles.length; i++) {
+            for (int j = 0; j < tiles[i].length; j++) {
+                if (tiles[i][j].hasItem()) {
+                    if(tiles[i][j].getItem() instanceof Loot) {
+                        itemData = "loot";
+                    } else if(tiles[i][j].getItem() instanceof Lever) {
+                        itemData = "lever";
+                    } else if(tiles[i][j].getItem() instanceof Gate) {
+                        itemData = "gate";
+                    } else if(tiles[i][j].getItem() instanceof Clock) {
+                        itemData = "clock";
+                    } else if(tiles[i][j].getItem() instanceof Bomb) {
+                        itemData = "bomb";
+                    } else if(tiles[i][j].getItem() instanceof Door) {
+                        break;
+                    }
+                    itemData += " " + tiles[i][j].getItem().getType() + " " + j + " " + i;
+                    levelState.add(itemData);
+                }
+            }
+        }
+
+        FileIO.writeLevelState(levelState, profile);
     }
 
     private void setImg() {

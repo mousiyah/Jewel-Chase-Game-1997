@@ -7,7 +7,9 @@ public class Gate extends Item {
         setTypes(new String[]{"blue", "green", "red"});
     }
 
-    public Gate(){}
+    public Gate(){
+        setTypes(new String[]{"blue", "green", "red"});
+    }
 
     @Override
     public boolean getCollected() {

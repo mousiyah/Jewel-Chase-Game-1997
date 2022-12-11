@@ -13,6 +13,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ public class Main extends Application {
 
     public static Level level;
     public static int currentLevel;
+    public static final int LEVELS = 6;
+    public static Profile currentProfile;
     public static ArrayList<Profile> profiles = new ArrayList<>();
 
 
@@ -58,11 +61,15 @@ public class Main extends Application {
     }
 
 
-    public static void playLevel(int n) throws IOException {
+    public static void openLevel(int n) throws IOException {
         level = new Level(n);
+        playLevel(n);
+    }
+
+    public static void playLevel(int n) throws IOException {
         currentLevel = n;
         stage.setScene(level.getScene());
-        level.setDrawTimeline(new Timeline(new KeyFrame(Duration.millis(300), event -> {
+        level.setDrawTimeline(new Timeline(new KeyFrame(Duration.millis(400), event -> {
             level.play();
             if (level.isWon) {
                 level.stopGame();
@@ -91,7 +98,9 @@ public class Main extends Application {
     public static void createNewProfile(String userName) throws IOException {
         Profile profile = new Profile(userName);
         profiles.add(profile);
+        currentProfile = profile;
         stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlLevels)));
+        controller.setLevelBtns();
         profile.setLevelBtns(controller);
     }
 
@@ -113,6 +122,7 @@ public class Main extends Application {
                 stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlLevels)));
                 controller.setLevelBtns();
                 profile.setLevelBtns(controller);
+                currentProfile = profile;
                 break;
             }
         }
@@ -127,6 +137,16 @@ public class Main extends Application {
         for (int i = profiles.size()-1; i >= 0; i--) {
             listView.getItems().add(profiles.get(i).getName());
         }
+    }
+
+    public static void saveGameState() {
+        level.saveLevelState(currentProfile);
+    }
+
+    public static void playGameFromSavedState(File file, int levelNum) throws IOException {
+        ArrayList<String> data = FileIO.readLevelState(file);
+        level = new Level(levelNum, data);
+        playLevel(levelNum);
     }
 
     public static Scene createScene(FXMLLoader fxmlLoader) throws IOException {

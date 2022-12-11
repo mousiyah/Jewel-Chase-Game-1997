@@ -19,8 +19,8 @@ public class Profile {
         this.score = score;
     }
 
-    public void updateProfileData() {
-
+    public static void updateProfilesData() {
+        FileIO.writeProfiles();
     }
 
     public void saveProfileData() {
