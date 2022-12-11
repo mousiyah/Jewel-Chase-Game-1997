@@ -55,7 +55,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" onAction="#goHome" style="-fx-background-color: transparent;">
+            <Button mnemonicParsing="false" onAction="#goLevels" style="-fx-background-color: transparent;">
                <graphic>
                   <ImageView fitHeight="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>

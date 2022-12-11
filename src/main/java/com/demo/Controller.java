@@ -76,6 +76,14 @@ public class Controller {
     }
 
     @FXML
+    public void goLevels(ActionEvent event) throws IOException {
+        Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlLevels)));
+        Main.controller.setLevelBtns();
+        Main.currentProfile.setLevelBtns(Main.controller);
+    }
+
+
+    @FXML
     Button resumeGameBtn;
 
     @FXML

@@ -109,7 +109,7 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="62.0" prefWidth="73.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
                <children>
-                  <Button mnemonicParsing="false" onAction="#goHome" style="-fx-background-color: transparent;">
+                  <Button mnemonicParsing="false" onAction="#goLevels" style="-fx-background-color: transparent;">
                      <graphic>
                         <ImageView fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                            <image>
