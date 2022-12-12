@@ -45,8 +45,6 @@ public class SmartThief extends Thief {
 
     /**
     * turns the NPC in the first direction it can move in
-    * 
-    * @param score_increase
     */
     public void turnDirection() {
         if (getDirection() == KeyCode.RIGHT) {
