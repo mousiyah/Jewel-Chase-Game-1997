@@ -25,7 +25,8 @@ public class Controller {
 
     @FXML
     public void initialize() throws IOException {
-        MoTDLabel.setText(puzzle.Puzzle());
+//  Making the game significantly slower.
+//        MoTDLabel.setText(puzzle.Puzzle());
     }
 
     @FXML
@@ -216,6 +217,7 @@ public class Controller {
             Main.createNewProfile(newUserName.getText());
         }
     }
+
 
     // level buttons
     @FXML
