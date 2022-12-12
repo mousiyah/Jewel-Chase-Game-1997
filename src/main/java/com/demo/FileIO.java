@@ -29,7 +29,6 @@ public abstract class FileIO {
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred while reading level file.");
         }
-
         return data;
     }
 
@@ -44,7 +43,6 @@ public abstract class FileIO {
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred while reading level file.");
         }
-
         return data;
     }
 
@@ -72,7 +70,6 @@ public abstract class FileIO {
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred while reading level file.");
         }
-
         return data;
     }
 
