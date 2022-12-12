@@ -5,17 +5,22 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/** Entity.java
+ * 
+ * @author user
+ * @version 2.0
+ */
 public abstract class Entity {
-    private int x, y;
+    
+	private int x, y;
     private static Tile[][] tiles;
-
     protected ImageView imgView;
     protected Image img;
     private SnapshotParameters params;
-
     private Timeline timeLine;
 
     protected Entity() {
+    
     }
 
     protected void setPositions(int x, int y) {
@@ -59,8 +64,7 @@ public abstract class Entity {
         return img;
     }
 
-    public void setImg(Image img){
+    public void setImg(Image img) {
         this.img = img;
     }
-
 }
