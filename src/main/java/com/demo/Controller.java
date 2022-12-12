@@ -24,9 +24,9 @@ public class Controller {
      */
     @FXML
     Text levelScore;
-    Text score;
+    Text scoreBar;
     protected void changeScore() {
-        score.setText(Integer.toString(Score.getScore()));
+        scoreBar.setText(Integer.toString(Score.getScore()));
     }
 
     /**

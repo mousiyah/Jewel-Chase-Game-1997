@@ -43,7 +43,7 @@
                   </Text>
                   <Pane maxHeight="30.0" maxWidth="110.0" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: #3fa45a; -fx-border-color: white; -fx-border-width: 2; -fx-border-radius: 2; -fx-background-radius: 2;">
                      <children>
-                        <Text fx:id="score" fill="WHITE" layoutX="72.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00">
+                        <Text fx:id="scoreBar" fill="WHITE" layoutX="72.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00">
                            <font>
                               <Font name="Arial Rounded MT Bold" size="18.0" />
                            </font>
