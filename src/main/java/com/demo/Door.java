@@ -1,9 +1,13 @@
 package com.demo;
 
 import javafx.scene.image.Image;
-
 import java.util.Objects;
 
+/** Door.java
+ * 
+ * @author user
+ * @version 2.0
+ */
 public class Door extends Item {
 
     private boolean isReached;
