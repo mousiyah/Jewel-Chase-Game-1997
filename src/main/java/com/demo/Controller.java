@@ -8,12 +8,16 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/** Controller.java
+ * 
+ * @author user
+ * @version 2.0
+ *
+ */
 public class Controller {
 
     @FXML
@@ -46,7 +50,7 @@ public class Controller {
     Text levelNumber;
 
     @FXML
-    public void setLevelNumberLabel(int n) {
+    public void setLevelNumber(int n) {
         levelNumber.setText(Integer.toString(n));
     }
 
@@ -78,8 +82,11 @@ public class Controller {
 
     @FXML
     public void goLevels(ActionEvent event) throws IOException {
-        Main.openProfileLevels(Main.currentProfile.getName());
+        Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlLevels)));
+        Main.controller.setLevelBtns();
+        Main.currentProfile.setLevelBtns(Main.controller);
     }
+
 
     @FXML
     Button resumeGameBtn;
@@ -119,6 +126,10 @@ public class Controller {
     }
 
     @FXML
+    public void scoreBoardBtn(ActionEvent event) {
+    }
+
+    @FXML
     ListView usersList;
 
     @FXML
@@ -152,7 +163,6 @@ public class Controller {
         if (!newUserName.getText().isEmpty()) {
             Main.createNewProfile(newUserName.getText());
         }
-
     }
 
     @FXML
@@ -193,7 +203,8 @@ public class Controller {
 
         File file = null;
         if (Main.currentProfile != null) {
-            file = FileIO.levelStateExists(Main.currentProfile.getName(), levelNum);
+            file = FileIO.levelStateExists(Main.currentProfile.getName(),
+                    String.valueOf(levelNum));
         }
 
         if (file == null) {
@@ -202,24 +213,4 @@ public class Controller {
             Main.playGameFromSavedState(file, levelNum);
         }
     }
-
-    @FXML
-    public void scoreBoardBtn(ActionEvent event) throws IOException {
-        Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlScoreBoard)));
-    }
-
-    @FXML
-    ListView highScoreTable;
-
-    @FXML
-    public void showHighScoreTable(ActionEvent event) throws IOException {
-        highScoreTable.getItems().clear();
-        Button levelBtn = (Button) event.getTarget();
-        String levelNum = levelBtn.getId().replaceAll("levelbtn", "");
-        ArrayList<String> table = FileIO.readHighScoreTable(levelNum);
-        for (int i = 0; i < table.size(); i++) {
-            highScoreTable.getItems().add(table.get(i));
-        }
-    }
-
 }
