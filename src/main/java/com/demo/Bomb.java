@@ -6,10 +6,14 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
+/** Bomb.java
+ * 
+ * @author user
+ * @version 2.0
+ */
 public class Bomb extends Item {
 
     private static final int COUNT_DOWN = 3;
@@ -19,7 +23,9 @@ public class Bomb extends Item {
         isActive = false;
     }
 
-    public Bomb(){}
+    public Bomb() {
+
+    }
 
     @Override
     public boolean getCollected() {
@@ -39,7 +45,7 @@ public class Bomb extends Item {
                 getResourceAsStream("img/bomb" + 3 + ".png"))));
         setTimeLine(new Timeline(new KeyFrame(Duration.seconds(1),
                 new EventHandler<ActionEvent>() {
-            int n = COUNT_DOWN-1;
+                    int n = COUNT_DOWN-1;
                     @Override
                     public void handle(ActionEvent t) {
                         setImg(new Image(Objects.requireNonNull(getClass().
@@ -50,7 +56,6 @@ public class Bomb extends Item {
                         }
                     }
                 })));
-
         getTimeLine().setCycleCount(COUNT_DOWN-1);
         getTimeLine().play();
     }
@@ -70,9 +75,6 @@ public class Bomb extends Item {
         for (i = getX(); i >= 0; i--) {
             getTiles()[getY()][i].setItemToNull();
         }
-
         getTiles()[getY()][getX()].setItem(null);
     }
-
-
 }
