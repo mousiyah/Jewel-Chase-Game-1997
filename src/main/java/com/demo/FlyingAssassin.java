@@ -1,16 +1,20 @@
 package com.demo;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
-import javafx.util.Duration;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+/** FlyingAssassin.java
+ *
+ * @author user
+ * @version 2.0
+ *
+ */
 public class FlyingAssassin extends MovingEntity {
 
+    /** Constructs a flying assassin.
+     *
+     */
     public FlyingAssassin() {
         setSpeed(600);
     }

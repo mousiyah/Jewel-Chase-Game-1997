@@ -18,6 +18,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/** Main.java
+ *
+ * @author user
+ * @version 2.0
+ */
 public class Main extends Application {
 
     // get screensize of monitor
@@ -104,6 +109,10 @@ public class Main extends Application {
         profile.setLevelBtns(controller);
     }
 
+    /** Sets the profile of the user.
+     *
+     * @throws IOException if file is not found
+     */
     public static void setProfiles() throws IOException {
         ArrayList<String> data = FileIO.readProfiles();
         profiles = new ArrayList<>();
@@ -133,6 +142,10 @@ public class Main extends Application {
         setProfiles();
     }
 
+    /** Sets the vertical list of profiles for the user to select from.
+     *
+     * @param listView list of profiles
+     */
     public static void setProfilesList(ListView listView) {
         for (int i = profiles.size()-1; i >= 0; i--) {
             listView.getItems().add(profiles.get(i).getName());
