@@ -36,8 +36,6 @@ public class Puzzle {
 
     /**
      * Access the website and return the result.
-     * This method sends a GET request to a page on the website and returns the response inside a String.
-     *
      * @param urlDirectory URL to access
      * @return Output from the website
      * @throws IOException
@@ -62,11 +60,6 @@ public class Puzzle {
 
     /**
      * Decrypts a String passed to this method.
-     * Each character is encrypted based on its location within the String, therefore each character
-     * , and their positioning is passed to the solveChar method.
-     * After each character is decrypted, the course module ID is appended to the end of the String.
-     * The length of the String is then counted, and then appended to the beginning of the String.
-     *
      * @param code Encrypted String
      * @return A decrypted String
      */
@@ -83,14 +76,6 @@ public class Puzzle {
 
     /**
      * Changes a character's value by following the rules of the cipher being used.
-     * In order to decrypt each character we must know what the position of the character is within the sequence.
-     * For characters that have an odd numbered position, denoted by x,
-     * its value should be replaced with the value of the character x characters backwards within the English alphabet.
-     * For characters that have an even numbered position, denoted by y,
-     * its value should be replaced with the value of the character y characters forward within the English alphabet.
-     * This method determines if the character is in an odd or even position in the sequence,
-     * and then changes the value according to the rules of the cipher.
-     * It then tests to see if that character is within the range of A - Z.
      * @param currentChar Current character in the sequence
      * @param charNumber Current character's location in the sequence
      * @return The current character after having its value changed and verified
@@ -106,11 +91,6 @@ public class Puzzle {
 
     /**
      * Recursive method that verifies that the character is still a character ranging from A - Z.
-     * The range of ASCII IDs 65 and 90 are populated by the captial letters of the English alphabet in ascending order.
-     * This method first tests if the character is below ID 65, and adds 26 to its ID if that is the case.
-     * It then tests if the character is above ID 90, and subtracts 26 if that is the case.
-     * This method calls itself until the ID does not need to be changed.
-     *
      * @param testChar Character passed from the solveChar method, this character is to be tested
      * @return Character within the range of A - Z
      */
