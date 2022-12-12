@@ -1,10 +1,13 @@
-package com.demo;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
+/** FloorFollowingThief.java
+ * 
+ * @author user
+ * @version 2.0
+ */
 public class FloorFollowingThief extends Thief {
 
     public FloorFollowingThief() {
@@ -25,9 +28,8 @@ public class FloorFollowingThief extends Thief {
         }
         collectItem(getTiles()[getY()][getX()]);
     }
-
-
-    public void turnDirection(){
+    
+    public void turnDirection() {
 
         // facing right
         if(getDirection() == KeyCode.RIGHT) {
@@ -79,7 +81,6 @@ public class FloorFollowingThief extends Thief {
         }
     }
 
-
     public boolean canTurn(KeyCode key) {
         if (key == KeyCode.UP) {
             return !isTopEdge() &&
@@ -108,5 +109,4 @@ public class FloorFollowingThief extends Thief {
         }
         return false;
     }
-
 }
