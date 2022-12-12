@@ -19,21 +19,27 @@ import java.util.ArrayList;
  */
 public class Controller {
 
+    @FXML
+    Text levelScore;
+
+    @FXML
+    Text scoreBar;
+
     /**
      * Change score on the level screen.
      */
     @FXML
-    Text levelScore;
-    Text scoreBar;
     protected void changeScore() {
         scoreBar.setText(Integer.toString(Score.getScore()));
     }
+
+    @FXML
+    ProgressBar progressBar;
 
     /**
      * Change progressBar on the level screen.
      */
     @FXML
-    ProgressBar progressBar;
     protected void changeProgressBar(int timeLeft, int timeLimit) {
         float progress = (float) timeLeft / (float) timeLimit;
         progressBar.setProgress(progress);
@@ -50,12 +56,14 @@ public class Controller {
         Profile.updateProfilesData();
     }
 
+    @FXML
+    Text levelNumber;
+
     /**
      * Set level number.
      * @param n level number
      */
     @FXML
-    Text levelNumber;
     public void setLevelNumberLabel(int n) {
         levelNumber.setText(Integer.toString(n));
     }
@@ -100,16 +108,16 @@ public class Controller {
      */
     @FXML
     public void goLevels(ActionEvent event) throws IOException {
-        Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlLevels)));
-        Main.controller.setLevelBtns();
-        Main.currentProfile.setLevelBtns(Main.controller);
+        Main.openProfileLevels(Main.currentProfile.getName());
     }
 
 
     // level control buttons
     @FXML
     Button resumeGameBtn;
+    @FXML
     Button pauseGameBtn;
+    @FXML
     Button saveGameStateBtn;
 
 
@@ -152,11 +160,13 @@ public class Controller {
         Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlUserReg)));
     }
 
+    @FXML
+    ListView usersList;
+
     /**
      * Go to the users scene.
      */
     @FXML
-    ListView usersList;
     public void usersBtn(ActionEvent event) throws IOException {
         Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlUsers)));
         Main.setProfilesList(usersList);
@@ -185,11 +195,13 @@ public class Controller {
         }
     }
 
+    @FXML
+    TextField newUserName;
+
     /**
      * Create new user.
      */
     @FXML
-    TextField newUserName;
     public void createNewUser(ActionEvent event) throws IOException {
         if (!newUserName.getText().isEmpty()) {
             Main.createNewProfile(newUserName.getText());
@@ -199,12 +211,21 @@ public class Controller {
     // level buttons
     @FXML
     Button levelbtn1;
+    @FXML
     Button levelbtn2;
+    @FXML
     Button levelbtn3;
+    @FXML
     Button levelbtn4;
+    @FXML
     Button levelbtn5;
+    @FXML
     Button levelbtn6;
+
+    @FXML
     public ArrayList<Button> levelBtns;
+
+    @FXML
     public void setLevelBtns() {
         levelBtns = new ArrayList<>();
         levelBtns.add(levelbtn1);
@@ -214,6 +235,8 @@ public class Controller {
         levelBtns.add(levelbtn5);
         levelBtns.add(levelbtn6);
     }
+
+    @FXML
     public ArrayList<Button> getLevelBtns() {
         return levelBtns;
     }
@@ -247,11 +270,13 @@ public class Controller {
         Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlScoreBoard)));
     }
 
+    @FXML
+    ListView highScoreTable;
+
     /**
      * Show high score table.
      */
     @FXML
-    ListView highScoreTable;
     public void showHighScoreTable(ActionEvent event) throws IOException {
         highScoreTable.getItems().clear();
         Button levelBtn = (Button) event.getTarget();

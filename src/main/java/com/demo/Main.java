@@ -155,8 +155,8 @@ public class Main extends Application {
             if (username.equals(profile.getName())) {
                 stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlLevels)));
                 controller.setLevelBtns();
-                profile.setLevelBtns(controller);
                 currentProfile = profile;
+                currentProfile.setLevelBtns(controller);
                 break;
             }
         }
