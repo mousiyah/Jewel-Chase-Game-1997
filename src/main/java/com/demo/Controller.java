@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -45,7 +46,7 @@ public class Controller {
     Text levelNumber;
 
     @FXML
-    public void setLevelNumber(int n) {
+    public void setLevelNumberLabel(int n) {
         levelNumber.setText(Integer.toString(n));
     }
 
@@ -77,11 +78,8 @@ public class Controller {
 
     @FXML
     public void goLevels(ActionEvent event) throws IOException {
-        Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlLevels)));
-        Main.controller.setLevelBtns();
-        Main.currentProfile.setLevelBtns(Main.controller);
+        Main.openProfileLevels(Main.currentProfile.getName());
     }
-
 
     @FXML
     Button resumeGameBtn;
@@ -118,10 +116,6 @@ public class Controller {
     @FXML
     public void newUserBtn(ActionEvent event) throws IOException {
         Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlUserReg)));
-    }
-
-    @FXML
-    public void scoreBoardBtn(ActionEvent event) {
     }
 
     @FXML
@@ -199,14 +193,32 @@ public class Controller {
 
         File file = null;
         if (Main.currentProfile != null) {
-            file = FileIO.levelStateExists(Main.currentProfile.getName(),
-                    String.valueOf(levelNum));
+            file = FileIO.levelStateExists(Main.currentProfile.getName(), levelNum);
         }
 
         if (file == null) {
             Main.openLevel(levelNum);
         } else {
             Main.playGameFromSavedState(file, levelNum);
+        }
+    }
+
+    @FXML
+    public void scoreBoardBtn(ActionEvent event) throws IOException {
+        Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlScoreBoard)));
+    }
+
+    @FXML
+    ListView highScoreTable;
+
+    @FXML
+    public void showHighScoreTable(ActionEvent event) throws IOException {
+        highScoreTable.getItems().clear();
+        Button levelBtn = (Button) event.getTarget();
+        String levelNum = levelBtn.getId().replaceAll("levelbtn", "");
+        ArrayList<String> table = FileIO.readHighScoreTable(levelNum);
+        for (int i = 0; i < table.size(); i++) {
+            highScoreTable.getItems().add(table.get(i));
         }
     }
 
