@@ -19,6 +19,15 @@ import java.util.ArrayList;
  */
 public class Controller {
 
+    Puzzle puzzle = new Puzzle();
+    @FXML
+    Text MoTDLabel;
+
+    @FXML
+    public void initialize() throws IOException {
+        MoTDLabel.setText(puzzle.Puzzle());
+    }
+
     @FXML
     Text levelScore;
 
