@@ -2,14 +2,32 @@ package com.demo;
 
 import javafx.scene.input.KeyCode;
 
+/**
+* 
+* @author
+* @author
+* @author 
+* @version 2.0
+*/
+
+
 public class Player extends MovingEntity{
 
     private boolean isDead;
 
+    /**
+    * 
+    * 
+    */
     public Player() {
         isDead = false;
     }
 
+    /**
+    * 
+    * 
+    * @param key
+    */
     @Override
     public void move(KeyCode key) {
         Tile nextTile = nextTile(key, getX(), getY());
@@ -20,6 +38,11 @@ public class Player extends MovingEntity{
         }
     }
 
+    /**
+    * 
+    * 
+    * @param tile
+    */
     @Override
     protected void collectItem(Tile tile) {
         if (tile.getItem() != null) {
@@ -35,6 +58,14 @@ public class Player extends MovingEntity{
         }
     }
 
+    /**
+    *
+    * 
+    * @param key
+    * @param x_coordinate
+    * @param y_coordinate
+    * @return tile
+    */
     public Tile nextTile(KeyCode key, int x, int y){
 
         if (key == KeyCode.UP && !isTopEdge()) {
@@ -69,10 +100,16 @@ public class Player extends MovingEntity{
         return null;
     }
 
+    /**
+    * @return boolean
+    */
     public boolean isDead() {
         return isDead;
     }
 
+    /**
+    * @param boolean
+    */
     public void setDead(boolean dead) {
         isDead = dead;
     }
