@@ -7,8 +7,14 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/** FileIO.java
+ * 
+ * @author user
+ * @version 2.0
+ */
 public abstract class FileIO {
-    public static ArrayList<String> data;
+    
+	public static ArrayList<String> data;
     public static String line;
 
     public static ArrayList<String> readLevel (int levelNumber) {
@@ -142,5 +148,4 @@ public abstract class FileIO {
             file.delete();
         }
     }
-
 }
