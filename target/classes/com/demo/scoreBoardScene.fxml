@@ -20,7 +20,7 @@
             <Insets />
          </VBox.margin>
       </Text>
-      <Text fill="WHITE" stroke="#009933" strokeType="OUTSIDE" strokeWidth="0.0" text="choose a lavel to display score board" textAlignment="CENTER">
+      <Text fill="WHITE" stroke="#009933" strokeType="OUTSIDE" strokeWidth="0.0" text="choose a level to display score board" textAlignment="CENTER">
          <font>
             <Font name="Comic Sans MS" size="36.0" />
          </font>

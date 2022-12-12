@@ -1,7 +1,7 @@
 package com.demo;
 
-/** Item.java
- *
+/**
+ * Item is an abstract parent class for all items.
  * @author Emily Crow, 2142214
  * @version 2.0
  */
@@ -11,11 +11,11 @@ public abstract class Item extends Entity {
     protected String type;
     protected boolean isActive;
 
-    /** Constructs an item.
-     *
+    /**
+     * Construct an item with type.
      * @param x integer of x-coordinate of an item
      * @param y integer y-coordinate of an item
-     * @param type String indicating the colour of the item
+     * @param type String indicating the type of the item
      */
     public Item(int x, int y, String type) {
         setX(x);
@@ -23,8 +23,8 @@ public abstract class Item extends Entity {
         setType(type);
     }
 
-    /** Constructs an item.
-     *
+    /**
+     * Construct an item without type.
      * @param x x-coordinate of an item
      * @param y y-coordinate of an item
      */
@@ -33,58 +33,68 @@ public abstract class Item extends Entity {
         setY(y);
     }
 
-    /** Constructs an item.
-     *
+    /**
+     * Construct an empty item.
      */
     protected Item() {
     }
 
-
+    /**
+     * Abstract method to get collected.
+     */
     public abstract boolean getCollected();
 
+    /**
+     * Abstract method to be stolen.
+     */
     public abstract boolean beStolen();
 
+    /**
+     * Abstract method to be activated.
+     */
     public abstract void activate();
 
-    /** Returns the colour of the item.
-     *
-     * @return String of the colour of the item
+    /**
+     * @return Item type
      */
     public String getType() {
         return type;
     }
 
-    /** Sets the colour of the item.
-     *
-     * @param type string indicating the colour of the item
+    /**
+     * Set item type.
+     * @param type
      */
     public void setType(String type) {
         this.type = type;
     }
 
-    /** Returns all the colours of the items.
-     *
-     * @return array of strings including all the colours of the items
+    /**
+     * @return Item list of types
      */
     public String[] getTypes() {
         return types;
     }
 
-    /** Sets the array of item colours.
-     *
-     * @param types array of strings that contains the item colours
+    /**
+     * Set list of item types.
+     * @param types of item
      */
     public void setTypes(String[] types) {
         this.types = types;
     }
 
+    /**
+     * Check if item is active
+     * @return boolean
+     */
     public boolean isActive() {
         return isActive;
     }
 
-    /** Sets the boolean active.
-     *
-     * @param active boolean indicating if an item is active
+    /**
+     * Set isActive.
+     * @param active
      */
     public void setIsActive(boolean active) {
         isActive = active;

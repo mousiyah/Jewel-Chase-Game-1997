@@ -1,14 +1,15 @@
 package com.demo;
 
-/** Gate.java
- *
+/**
+ * Gate an item which doesn't allow any entity on it.
+ * Can be removed by collecting matching color loot.
  * @author Emily Crow, 2142214
  * @version 2.0
  */
 public class Gate extends Item {
 
-    /** Constructs a gate.
-     *
+    /**
+     * Construct a gate with parameters.
      * @param x x-coordinate of the gate
      * @param y y-coordinate of the gate
      * @param type colour of the gate
@@ -18,15 +19,15 @@ public class Gate extends Item {
         setTypes(new String[]{"blue", "green", "red"});
     }
 
-    /** Constructs a gate.
-     *
+    /**
+     * Construct an empty gate.
      */
     public Gate(){
         setTypes(new String[]{"blue", "green", "red"});
     }
 
-    /** Returns boolean indicating if gate has been collected.
-     *
+    /**
+     * Gate cannot be collected.
      * @return always returns false as it can't be collected
      */
     @Override
@@ -34,29 +35,31 @@ public class Gate extends Item {
         return false;
     }
 
-    /** Returns boolean indicating if gate has been stolen by a thief.
-     *
-     * @return always returns false as gate can't be stolen
+    /**
+     * Gate cannot be stolen.
+     * @return always returns false as it can't be stolen
      */
     @Override
     public boolean beStolen() {
         return false;
     }
 
+    /**
+     * Gate cannot be activated.
+     */
     @Override
     public void activate() {}
 
-    /** Returns a string of the colour of the gate.
-     *
-     * @return the colour of the gate
+    /**
+     * @return gate color
      */
     public String getColor() {
         return type;
     }
 
-    /** Sets the colour of the gate.
-     *
-     * @param color String that indicates the colour of the gate
+    /**
+     * Set gate color.
+     * @param color
      */
     public void setColor(String color) {
         this.type = color;

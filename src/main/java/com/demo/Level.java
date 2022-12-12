@@ -20,9 +20,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-/** Level.java
- *
- * @author user
+/**
+ * Level is a class which constucts game level.
+ * @author Muslima Karimova 2130288
  * @version 2.0
  */
 public class Level {
@@ -40,7 +40,7 @@ public class Level {
 
     private ArrayList<String> levelData;
     private ArrayList<String> levelState;
-    private static Tile[][] tiles;
+    private Tile[][] tiles;
 
     private Player player;
     private ArrayList<MovingEntity> movingEntities;
@@ -54,8 +54,8 @@ public class Level {
     public static EventHandler<KeyEvent> keyEventHandler;
     public static Scene scene;
 
-    /** Constructs a level.
-     *
+    /**
+     * Constructs a new level.
      * @param levelNumber integer indicating the current level
      */
     public Level(int levelNumber) {
@@ -73,6 +73,11 @@ public class Level {
         tick();
     }
 
+    /**
+     * Constructs a saved level.
+     * @param levelNumber integer indicating the current level
+     * @param savedData saved level data
+     */
     public Level(int levelNumber, ArrayList<String> savedData) {
 
         this.levelNumber = levelNumber;
@@ -91,6 +96,10 @@ public class Level {
         tick();
     }
 
+    /**
+     * Initialize level.
+     * @param data
+     */
     public void initializeLevel(ArrayList<String> data) {
         // level width and height in tiles
         width = Integer.parseInt(data.get(0).split(" ")[0]);
@@ -108,6 +117,9 @@ public class Level {
     }
 
 
+    /**
+     * Control timer on every tick.
+     */
     public void tick() {
         setGameTimeline(new Timeline(new KeyFrame(Duration.seconds(1),
                 event -> {
@@ -120,12 +132,18 @@ public class Level {
     }
 
 
+    /**
+     * Stop game.
+     */
     public void stopGame() {
         pauseGame();
         gameTimeline.stop();
         drawTimeline.stop();
     }
 
+    /**
+     * Pause game.
+     */
     public void pauseGame() {
         gameTimeline.pause();
         drawTimeline.pause();
@@ -135,6 +153,9 @@ public class Level {
         scene.removeEventFilter(KeyEvent.KEY_PRESSED, keyEventHandler);
     }
 
+    /**
+     * Resume game.
+     */
     public void resumeGame() {
         gameTimeline.play();
         drawTimeline.play();
@@ -144,6 +165,17 @@ public class Level {
         addEventFilter();
     }
 
+    /**
+     * Play game.
+     */
+    public void play() {
+        drawGame();
+        checkGameState();
+    }
+
+    /**
+     * Event Filter for key press.
+     */
     public void addEventFilter() {
         // Register an event handler for key presses.
         keyEventHandler = event -> {
@@ -156,8 +188,8 @@ public class Level {
 
     }
 
-    /** Returns the scene that constructs the game.
-     *
+    /**
+     * Builds the scene that constructs the game level.
      * @return Scene
      * @throws IOException if files aren't found
      */
@@ -192,11 +224,9 @@ public class Level {
         return scene;
     }
 
-    public void play() {
-        drawGame();
-        checkGameState();
-    }
-
+    /**
+     * Draw game.
+     */
     public void drawGame() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -204,6 +234,9 @@ public class Level {
         drawMovingEntities(gc);
     }
 
+    /**
+     * Check game state.
+     */
     public void checkGameState() {
         checkCollusion();
         if (player.isDead() || LevelTimer.getTimeLeft() < 0 || door.isClosedForever()) {
@@ -217,6 +250,9 @@ public class Level {
         }
     }
 
+    /**
+     * Build Canvas for tiles.
+     */
     private Pane buildCanvas() throws IOException {
         canvas = new Canvas(canvasHeight, canvasWidth);
         BorderPane canvasPane = new BorderPane();
@@ -225,7 +261,9 @@ public class Level {
         return canvasPane;
     }
 
-
+    /**
+     * Check collusions for moving entities.
+     */
     public void checkCollusion() {
         for (int i = 0; i < movingEntities.size(); i++) {
             if (movingEntities.get(i) instanceof FlyingAssassin) {
@@ -237,6 +275,9 @@ public class Level {
         }
     }
 
+    /**
+     * Initialize moving entities.
+     */
     public void initializeMovingEntities(ArrayList<String> data) {
         movingEntities = new ArrayList<>();
 
@@ -252,7 +293,9 @@ public class Level {
         }
     }
 
-
+    /**
+     * Initialize items.
+     */
     public void initializeItems() {
         for(int i = height; i < levelData.size(); i++) {
             switch (levelData.get(i).split(" ")[0]) {
@@ -265,6 +308,9 @@ public class Level {
         }
     }
 
+    /**
+     * Initialize savedItems.
+     */
     public void initializeSavedItems(ArrayList<String> savedData) {
         for(int i = height; i < savedData.size(); i++) {
             switch (savedData.get(i).split(" ")[0]) {
@@ -277,6 +323,10 @@ public class Level {
         }
     }
 
+    /**
+     * Draw tiles.
+     * @param gc
+     */
     private void drawTiles(GraphicsContext gc) {
         for(int i = 0; i < height; i++){
             for(int j = 0; j < width; j++){
@@ -285,6 +335,10 @@ public class Level {
         }
     }
 
+    /**
+     * Draw moving entities.
+     * @param gc
+     */
     private void drawMovingEntities(GraphicsContext gc) {
         // draw player
         gc.drawImage(player.getImg(), player.getX() * Tile.TILE_SIZE + Tile.TILE_MARGIN,
@@ -298,7 +352,10 @@ public class Level {
         }
     }
 
-
+    /**
+     * Initialize tiles.
+     * @param data
+     */
     private void initializeTiles(ArrayList<String> data) {
         for(int i = 0; i < height; i++){
             for(int j = 0; j < width; j++){
@@ -307,6 +364,12 @@ public class Level {
         }
     }
 
+    /**
+     * Initialize a moving entity.
+     * @param row of the data for moving entity
+     * @param movingEntity moving entity child class instance
+     * @param data data
+     */
     private void initializeMovingEntity(int row, MovingEntity movingEntity,
                                           ArrayList<String> data) {
         String direction = data.get(row).split(" ")[1];
@@ -327,6 +390,12 @@ public class Level {
         movingEntity.tick();
     }
 
+    /**
+     * Initialize saved item.
+     * @param row of the data for saved item
+     * @param item item child class instance
+     * @data
+     */
     private void initializeSavedItem(int row, Item item,
                                      ArrayList<String> data) {
         String type = data.get(row).split(" ")[1];
@@ -343,6 +412,11 @@ public class Level {
         Tile.getAllObjectsCoordinates().add(new Pair(x,y));
     }
 
+    /**
+     * Initialize random item.
+     * @param row to read quantity from
+     * @param item item child class instance
+     */
     private void initializeRandomItem(int row, Item item) {
         int n = Integer.parseInt(levelData.get(row).split(" ")[2]);
         String type = levelData.get(row).split(" ")[1];
@@ -370,8 +444,8 @@ public class Level {
         Tile.getAllObjectsCoordinates().add(randomCoordinates);
     }
 
-    /** Sets the areas that would trigger the bomb.
-     *
+    /**
+     * Set the areas that would trigger the bomb.
      * @param x x-coordinate of the bomb
      * @param y y-coordinate of the bomb
      */
@@ -402,10 +476,21 @@ public class Level {
         }
     }
 
+    /**
+     * Check if coordinates out of edge.
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @return true if so
+     */
     public boolean isOutOfEdge(int x, int y) {
         return x < 0 || x >= tiles[0].length || y < 0 || y >= tiles.length;
     }
 
+    /**
+     * Initialize Player.
+     * @param row to read data from
+     * @param data
+     */
     private void initializePlayer(int row, ArrayList<String> data) {
         int x = Integer.parseInt(data.get(row).split(" ")[1]);
         int y = Integer.parseInt(data.get(row).split(" ")[2]);
@@ -414,6 +499,11 @@ public class Level {
         Tile.getAllObjectsCoordinates().add(new Pair(x,y));
     }
 
+    /**
+     * Initialize Door.
+     * @param row to read data from
+     * @param data
+     */
     public void initializeDoor(int row, ArrayList<String> data) {
         int x = Integer.parseInt(data.get(row).split(" ")[1]);
         int y = Integer.parseInt(data.get(row).split(" ")[2]);
@@ -424,6 +514,10 @@ public class Level {
         Tile.getAllObjectsCoordinates().add(new Pair(x,y));
     }
 
+    /**
+     * Generate random coordinates.
+     * @return new Pair of random coordinates
+     */
     public Pair<Integer,Integer> generateRandomXY() {
         int x, y;
         do{
@@ -433,6 +527,10 @@ public class Level {
         return new Pair<>(x, y);
     }
 
+    /**
+     * Save level state
+     * @param profile
+     */
     public void saveLevelState(Profile profile) {
         levelState = new ArrayList<>();
         levelState.add(width + " " + height);
@@ -489,8 +587,8 @@ public class Level {
         FileIO.writeLevelState(levelState, profile);
     }
 
-    /** Sets the images for the player and the NPCs.
-     *
+    /**
+     * Sets the images for the entities.
      */
     private void setImg() {
         player.setImg(new Image(Objects.requireNonNull(getClass().
@@ -512,8 +610,8 @@ public class Level {
         setItemImg();
     }
 
-    /** Sets the images for all items.
-     *
+    /**
+     * Sets the images for items.
      */
     private void setItemImg() {
         for (int k = 0; k < tiles.length; k++) {
@@ -556,89 +654,97 @@ public class Level {
         }
     }
 
-    /** Returns the height of the game.
-     *
+    /**
+     * Returns the height of the game.
      * @return integer indicating the height of the game
      */
     public int getHeight() {
         return height;
     }
 
-    /** Sets the height of the game.
-     *
+    /**
+     * Sets the height of the game.
      * @param height integer indicating the height of the game
      */
     public void setHeight(int height) {
         this.height = height;
     }
 
-    /** Returns the width of the game.
-     *
+    /**
+     * Returns the width of the game.
      * @return integer indicating the width of the game
      */
     public int getWidth() {
         return width;
     }
 
-    /** Sets the width of the game.
-     *
+    /**
+     * Sets the width of the game.
      * @param length integer indicating the width of the game
      */
     public void setWidth(int length) {
         this.width = length;
     }
 
-    /** Sets the timeline for the game.
-     *
-     * @param gameTimeline Timeline of the game
+    /**
+     * Set the game timeline.
+     * @param gameTimeline game Timeline
      */
     public void setGameTimeline(Timeline gameTimeline) {
         this.gameTimeline = gameTimeline;
     }
 
-    /** Returns the timeline for the game.
-     *
-     * @return the timeline for the game
+    /**
+     * Return the game timeline.
+     * @return the game timeline
      */
     public Timeline getGameTimeline() {
         return gameTimeline;
     }
 
-    /** Returns the timeline that will be drawn to the screen.
-     *
-     * @return Timeline to be drawn
+    /**
+     * Return the draw timeline.
+     * @return drawTimeLine
      */
     public Timeline getDrawTimeline() {
         return drawTimeline;
     }
 
-    /** Sets the timeline that will be drawn.
-     *
+    /**
+     * Set the draw timeline.
      * @param drawTimeline Timeline
      */
     public void setDrawTimeline(Timeline drawTimeline) {
         this.drawTimeline = drawTimeline;
     }
 
+    /**
+     * Check if the level is completed
+     * @return isWon boolean
+     */
     public boolean isWon() {
         return isWon;
     }
 
-    /** Sets isWon to true if the player completes the level, otherwise it returns false.
-     *
-     * @param won boolean indicating if player has completed the level
+    /**
+     * Set idWon.
+     * @param won boolean
      */
     public void setWon(boolean won) {
         isWon = won;
     }
 
+    /**
+     * Check isLost.
+     * @return lost boolean
+     */
     public boolean isLost() {
         return isLost;
     }
 
-    /** Sets isLost to true if level is unwinnable, otherwise method returns false.
-     *
-     * @param lost boolean indicating if player has lost the level
+    /**
+     * Set isLost.
+     * @param lost
      */
     public void setLost(boolean lost) {
         isLost = lost;

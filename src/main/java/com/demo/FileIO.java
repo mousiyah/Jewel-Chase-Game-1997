@@ -9,10 +9,21 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * FileIO class to read and write to files.
+ * @author Muslima Karimova 2130288
+ * @version 2.0
+ */
+
 public abstract class FileIO {
     public static ArrayList<String> data;
     public static String line;
 
+    /**
+     * Read level file.
+     * @param levelNumber
+     * @return data
+     */
     public static ArrayList<String> readLevel(int levelNumber) {
         data = new ArrayList<>();
         try {
@@ -29,6 +40,11 @@ public abstract class FileIO {
         return data;
     }
 
+    /**
+     * Read level state.
+     * @param file source file
+     * @return data
+     */
     public static ArrayList<String> readLevelState(File file) {
         data = new ArrayList<>();
         try {
@@ -44,6 +60,11 @@ public abstract class FileIO {
         return data;
     }
 
+    /**
+     * Add some data to the file.
+     * @param fileName
+     * @param data
+     */
     public static void addToTheFile(String fileName, String data) {
         try {
             Files.write(Paths.get("data/" + fileName), data.getBytes(), StandardOpenOption.APPEND);
@@ -52,6 +73,10 @@ public abstract class FileIO {
         }
     }
 
+    /**
+     * Read Profiles.
+     * @return data
+     */
     public static ArrayList<String> readProfiles() {
         data = new ArrayList<>();
         try {
@@ -72,6 +97,10 @@ public abstract class FileIO {
         return data;
     }
 
+    /**
+     * Remove Profile from profiles file.
+     * @param username of a Profile
+     */
     public static void removeProfile(String username) throws IOException {
         File temp = new File("data/profilesTemp.txt");
         File file = new File("data/profiles.txt");
@@ -91,6 +120,9 @@ public abstract class FileIO {
         temp.renameTo(file);
     }
 
+    /**
+     * Write profiles list from main to the file.
+     */
     public static void writeProfiles() {
         try {
             PrintWriter file = new PrintWriter("data/profiles.txt");
@@ -107,6 +139,11 @@ public abstract class FileIO {
         }
     }
 
+    /**
+     * Write saved level state to the file.
+     * @param levelData data of the saved level state
+     * @param profile profile who was logged in
+     */
     public static void writeLevelState(ArrayList<String> levelData, Profile profile) {
         try {
             FileWriter fileWriter = new FileWriter("data/levelStates/"
@@ -121,6 +158,12 @@ public abstract class FileIO {
         }
     }
 
+    /**
+     * Check if level state exists.
+     * @param username Profile username for saved level state
+     * @param levelNum level number for saved level state
+     * @return the file if yes, null if no
+     */
     public static File levelStateExists(String username, int levelNum) {
         File file = new File("data/levelStates/" + username + levelNum + ".txt");
         if (file.exists() && !file.isDirectory()) {
@@ -129,6 +172,10 @@ public abstract class FileIO {
         return null;
     }
 
+    /**
+     * Delete all level states for a particular Profile.
+     * @param username Profile username for saved level state
+     */
     public static void deleteAllLevelStates(String username) {
         for (int i = 1; i <= Main.LEVELS; i++) {
             File file = new File("data/levelStates/" + username + i + ".txt");
@@ -138,6 +185,11 @@ public abstract class FileIO {
         }
     }
 
+    /**
+     * Delete particular level state for a particular Profile.
+     * @param username Profile username for saved level state
+     * @param levelNum level number for saved level state
+     */
     public static void deleteLevelState(String username, int levelNum) {
         File file = new File("data/levelStates/" + username + levelNum + ".txt");
         if (file.exists() && !file.isDirectory()) {
@@ -145,6 +197,11 @@ public abstract class FileIO {
         }
     }
 
+    /**
+     * Read high score table for a particular level.
+     * @param levelNum level number to read high score for
+     * @return high score table
+     */
     public static ArrayList<String> readHighScoreTable(String levelNum) throws IOException {
         File file = new File("data/highScoreTables/table" + levelNum + ".txt");
         file.createNewFile();
@@ -157,6 +214,12 @@ public abstract class FileIO {
         return data;
     }
 
+    /**
+     * Update high score table for a particular level.
+     * @param levelNum level number high score table needs to be updated for
+     * @param username username of the Profile
+     * @param score score of the profile for that level
+     */
     public static void updateHighScoreTable(int levelNum, String username, int score) throws IOException {
         File file = new File("data/highScoreTables/table" + levelNum + ".txt");
 

@@ -18,9 +18,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-/** Main.java
- *
- * @author user
+/**
+ * Main class.
+ * @author Muslima Karimova 2130288
  * @version 2.0
  */
 public class Main extends Application {
@@ -47,11 +47,9 @@ public class Main extends Application {
     public static ArrayList<Profile> profiles = new ArrayList<>();
 
 
-
-
     /**
-     * Setup the new application.
-     * @param mainStage The stage that is to be used for the application.
+      * Setup the new application.
+      * @param mainStage The stage that is to be used for the application.
      */
     @Override
     public void start(Stage mainStage) throws IOException {
@@ -67,11 +65,19 @@ public class Main extends Application {
     }
 
 
+    /**
+     * Open level.
+     * @param n level number
+     */
     public static void openLevel(int n) throws IOException {
         level = new Level(n);
         playLevel(n);
     }
 
+    /**
+     * Play level.
+     * @param n level number
+     */
     public static void playLevel(int n) throws IOException {
         currentLevel = n;
         stage.setScene(level.getScene());
@@ -79,7 +85,7 @@ public class Main extends Application {
             level.play();
             if (level.isWon) {
                 level.stopGame();
-                //FileIO.deleteLevelState(currentProfile.getName(), currentLevel);
+                FileIO.deleteLevelState(currentProfile.getName(), currentLevel);
                 try {
                     FileIO.updateHighScoreTable(currentLevel,
                             currentProfile.getName(), Score.getScore());
@@ -111,6 +117,10 @@ public class Main extends Application {
         level.getDrawTimeline().play();
     }
 
+    /**
+     * Create new Profile.
+     * @param userName
+     */
     public static void createNewProfile(String userName) throws IOException {
         Profile profile = new Profile(userName);
         profiles.add(profile);
@@ -120,8 +130,8 @@ public class Main extends Application {
         profile.setLevelBtns(controller);
     }
 
-    /** Sets the profile of the user.
-     *
+    /**
+     * Set all profiles list.
      * @throws IOException if file is not found
      */
     public static void setProfiles() throws IOException {
@@ -136,26 +146,34 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Open levels list for a particular profile.
+     * @param username of profile
+     */
     public static void openProfileLevels(String username) throws IOException {
         for (Profile profile: profiles) {
             if (username.equals(profile.getName())) {
                 stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlLevels)));
                 controller.setLevelBtns();
-                profile.setLevelBtns(controller);
                 currentProfile = profile;
+                currentProfile.setLevelBtns(controller);
                 break;
             }
         }
     }
 
+    /**
+     * Delete particular profile.
+     * @param username of profile
+     */
     public static void deleteProfile(String username) throws IOException {
         FileIO.removeProfile(username);
         setProfiles();
     }
 
-    /** Sets the vertical list of profiles for the user to select from.
-     *
-     * @param listView list of profiles
+    /**
+     * Sets ListView to choose profiles from.
+     * @param listView list to choose profiles from
      */
     public static void setProfilesList(ListView listView) {
         for (int i = profiles.size()-1; i >= 0; i--) {
@@ -163,16 +181,29 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Save the game state.
+     */
     public static void saveGameState() {
         level.saveLevelState(currentProfile);
     }
 
+    /**
+     * Play the game from the saved state.
+     * @param file file where game state is saved
+     * @param levelNum level number of the saved game state
+     */
     public static void playGameFromSavedState(File file, int levelNum) throws IOException {
         ArrayList<String> data = FileIO.readLevelState(file);
         level = new Level(levelNum, data);
         playLevel(levelNum);
     }
 
+    /**
+     * Create a Scene from fxml file.
+     * @param fxmlLoader
+     * @return scene
+     */
     public static Scene createScene(FXMLLoader fxmlLoader) throws IOException {
         fxmlLoader.setController(controller);
         BorderPane root = new BorderPane();
@@ -184,7 +215,9 @@ public class Main extends Application {
     }
 
 
-
+    /**
+     * main
+     */
     public static void main(String[] args) {
         launch();
     }
