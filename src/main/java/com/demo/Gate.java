@@ -2,7 +2,7 @@ package com.demo;
 
 /** Gate.java
  *
- * @author Emily Crow, 2142214
+ * @author Emily Crow 2142214
  * @version 2.0
  */
 public class Gate extends Item {

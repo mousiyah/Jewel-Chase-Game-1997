@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /** Loot.java
  *
- * @author Emily Crow, 2142214
+ * @author Emily Crow 2142214
  * @version 2.0
  */
 public class Loot extends Item {

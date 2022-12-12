@@ -2,7 +2,7 @@ package com.demo;
 
 /** Item.java
  *
- * @author Emily Crow, 2142214
+ * @author Emily Crow 2142214
  * @version 2.0
  */
 public abstract class Item extends Entity {

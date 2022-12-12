@@ -5,7 +5,7 @@ import java.util.Objects;
 
 /** Door.java
  * 
- * @author user
+ * @author Emily Crow 2142214
  * @version 2.0
  */
 public class Door extends Item {
