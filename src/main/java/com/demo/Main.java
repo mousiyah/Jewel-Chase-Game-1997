@@ -33,6 +33,7 @@ public class Main extends Application {
     public static URL fxmlUserReg = Main.class.getResource("userReg.fxml");
     public static URL fxmlLevels = Main.class.getResource("levelsScene.fxml");
     public static URL fxmlUsers = Main.class.getResource("usersScene.fxml");
+    public static URL fxmlScoreBoard = Main.class.getResource("scoreBoardScene.fxml");
 
     public static Level level;
     public static int currentLevel;
@@ -73,19 +74,29 @@ public class Main extends Application {
             level.play();
             if (level.isWon) {
                 level.stopGame();
+                //FileIO.deleteLevelState(currentProfile.getName(), currentLevel);
                 try {
+                    FileIO.updateHighScoreTable(currentLevel,
+                            currentProfile.getName(), Score.getScore());
                     stage.setScene(createScene(new FXMLLoader(fxmlWin)));
-                    controller.updateScore();
-                    controller.setLevelNumber(n);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                controller.updateScore();
+                controller.setLevelNumberLabel(n);
+                if (currentLevel >= currentProfile.getMaxLevelUnlocked()) {
+                    currentLevel++;
+                    currentProfile.setMaxLevelUnlocked(currentLevel);
+                    FileIO.writeProfiles();
+                }
+
             } else if (level.isLost) {
                 level.stopGame();
                 try {
                     stage.setScene(createScene(new FXMLLoader(fxmlLoose)));
                     controller.updateScore();
-                    controller.setLevelNumber(n);
+                    controller.setLevelNumberLabel(n);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

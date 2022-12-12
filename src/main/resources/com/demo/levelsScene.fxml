@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="10.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Text fill="WHITE" stroke="#009933" strokeType="OUTSIDE" strokeWidth="6.0" text="Levels" textAlignment="CENTER">
          <font>
@@ -18,6 +18,11 @@
          <VBox.margin>
             <Insets />
          </VBox.margin>
+      </Text>
+      <Text fill="WHITE" stroke="#009933" strokeType="OUTSIDE" strokeWidth="0.0" text="choose a lavel" textAlignment="CENTER">
+         <font>
+            <Font name="Comic Sans MS" size="36.0" />
+         </font>
       </Text>
       <HBox alignment="CENTER" prefWidth="30.0" spacing="20.0">
          <children>
@@ -81,18 +86,18 @@
             </Button>
          </children>
       </HBox>
-      <HBox alignment="BOTTOM_RIGHT" prefHeight="164.0" prefWidth="800.0">
+      <HBox alignment="BOTTOM_RIGHT" prefHeight="50.0" prefWidth="800.0">
          <children>
             <Button mnemonicParsing="false" onAction="#goHome" style="-fx-background-color: transparent;">
                <graphic>
-                  <ImageView fitHeight="120.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="80.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@img/homebtn.png" />
                      </image>
                   </ImageView>
                </graphic>
                <HBox.margin>
-                  <Insets bottom="30.0" right="30.0" />
+                  <Insets right="30.0" />
                </HBox.margin>
             </Button>
          </children>

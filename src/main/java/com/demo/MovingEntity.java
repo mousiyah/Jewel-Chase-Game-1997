@@ -67,16 +67,16 @@ public abstract class MovingEntity extends Entity {
     }
 
     public boolean isTopEdge() {
-        return getY() <= 0;
+        return getY() == 0;
     }
     public boolean isRightEdge() {
-        return getX() >= getTiles()[0].length-1;
+        return getX() == getTiles()[0].length-1;
     }
     public boolean isBottomEdge() {
-        return getY() >= getTiles().length-1;
+        return getY() == getTiles().length-1;
     }
     public boolean isLeftEdge() {
-        return getX() <= 0;
+        return getX() == 0;
     }
 
     protected abstract void collectItem(Tile tile);

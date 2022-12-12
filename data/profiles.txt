@@ -1,3 +1,3 @@
-%user% candy 3 375
-%user% musi 1 24
-%user% barbie 1 6
+%user% candy 6 438
+%user% musi 2 1398
+%user% barbie 1 57
