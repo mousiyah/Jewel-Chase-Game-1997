@@ -20,6 +20,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/** Level.java
+ *
+ * @author user
+ * @version 2.0
+ */
 public class Level {
 
     private int canvasHeight;
@@ -35,7 +40,7 @@ public class Level {
 
     private ArrayList<String> levelData;
     private ArrayList<String> levelState;
-    private Tile[][] tiles;
+    private static Tile[][] tiles;
 
     private Player player;
     private ArrayList<MovingEntity> movingEntities;
@@ -49,6 +54,10 @@ public class Level {
     public static EventHandler<KeyEvent> keyEventHandler;
     public static Scene scene;
 
+    /** Constructs a level.
+     *
+     * @param levelNumber integer indicating the current level
+     */
     public Level(int levelNumber) {
 
         this.levelNumber = levelNumber;
@@ -147,6 +156,11 @@ public class Level {
 
     }
 
+    /** Returns the scene that constructs the game.
+     *
+     * @return Scene
+     * @throws IOException if files aren't found
+     */
     public Scene getScene() throws IOException {
         BorderPane root = new BorderPane();
         root.setId("root");
@@ -356,6 +370,11 @@ public class Level {
         Tile.getAllObjectsCoordinates().add(randomCoordinates);
     }
 
+    /** Sets the areas that would trigger the bomb.
+     *
+     * @param x x-coordinate of the bomb
+     * @param y y-coordinate of the bomb
+     */
     private void setBombAreas(int x, int y) {
         if (!isOutOfEdge(x, y+1)) {
             tiles[y+1][x].setBombArea(tiles[y][x].getItem());
@@ -470,6 +489,9 @@ public class Level {
         FileIO.writeLevelState(levelState, profile);
     }
 
+    /** Sets the images for the player and the NPCs.
+     *
+     */
     private void setImg() {
         player.setImg(new Image(Objects.requireNonNull(getClass().
                 getResourceAsStream("img/player.png"))));
@@ -490,6 +512,9 @@ public class Level {
         setItemImg();
     }
 
+    /** Sets the images for all items.
+     *
+     */
     private void setItemImg() {
         for (int k = 0; k < tiles.length; k++) {
             for (int l = 0; l < tiles[k].length; l++) {
@@ -531,34 +556,66 @@ public class Level {
         }
     }
 
+    /** Returns the height of the game.
+     *
+     * @return integer indicating the height of the game
+     */
     public int getHeight() {
         return height;
     }
 
+    /** Sets the height of the game.
+     *
+     * @param height integer indicating the height of the game
+     */
     public void setHeight(int height) {
         this.height = height;
     }
 
+    /** Returns the width of the game.
+     *
+     * @return integer indicating the width of the game
+     */
     public int getWidth() {
         return width;
     }
 
+    /** Sets the width of the game.
+     *
+     * @param length integer indicating the width of the game
+     */
     public void setWidth(int length) {
         this.width = length;
     }
 
+    /** Sets the timeline for the game.
+     *
+     * @param gameTimeline Timeline of the game
+     */
     public void setGameTimeline(Timeline gameTimeline) {
         this.gameTimeline = gameTimeline;
     }
 
+    /** Returns the timeline for the game.
+     *
+     * @return the timeline for the game
+     */
     public Timeline getGameTimeline() {
         return gameTimeline;
     }
 
+    /** Returns the timeline that will be drawn to the screen.
+     *
+     * @return Timeline to be drawn
+     */
     public Timeline getDrawTimeline() {
         return drawTimeline;
     }
 
+    /** Sets the timeline that will be drawn.
+     *
+     * @param drawTimeline Timeline
+     */
     public void setDrawTimeline(Timeline drawTimeline) {
         this.drawTimeline = drawTimeline;
     }
@@ -567,6 +624,10 @@ public class Level {
         return isWon;
     }
 
+    /** Sets isWon to true if the player completes the level, otherwise it returns false.
+     *
+     * @param won boolean indicating if player has completed the level
+     */
     public void setWon(boolean won) {
         isWon = won;
     }
@@ -575,6 +636,10 @@ public class Level {
         return isLost;
     }
 
+    /** Sets isLost to true if level is unwinnable, otherwise method returns false.
+     *
+     * @param lost boolean indicating if player has lost the level
+     */
     public void setLost(boolean lost) {
         isLost = lost;
     }

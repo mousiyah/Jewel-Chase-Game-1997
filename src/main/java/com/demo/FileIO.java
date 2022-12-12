@@ -1,7 +1,9 @@
 package com.demo;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ public abstract class FileIO {
     public static ArrayList<String> data;
     public static String line;
 
-    public static ArrayList<String> readLevel (int levelNumber) {
+    public static ArrayList<String> readLevel(int levelNumber) {
         data = new ArrayList<>();
         try {
             File levelFile = new File("data/levels/" + "level" + levelNumber + ".txt");
@@ -27,7 +29,7 @@ public abstract class FileIO {
         return data;
     }
 
-    public static ArrayList<String> readLevelState (File file) {
+    public static ArrayList<String> readLevelState(File file) {
         data = new ArrayList<>();
         try {
             Scanner in = new Scanner(file);
@@ -42,7 +44,7 @@ public abstract class FileIO {
         return data;
     }
 
-    public static void addToTheFile(String fileName, String data){
+    public static void addToTheFile(String fileName, String data) {
         try {
             Files.write(Paths.get("data/" + fileName), data.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {
@@ -76,8 +78,8 @@ public abstract class FileIO {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         BufferedWriter writer = new BufferedWriter(new FileWriter(temp));
 
-        while((line = reader.readLine()) != null) {
-            if(line.split(" ")[1].equals(username)) {
+        while ((line = reader.readLine()) != null) {
+            if (line.split(" ")[1].equals(username)) {
                 continue;
             }
             writer.write(line);
@@ -119,18 +121,18 @@ public abstract class FileIO {
         }
     }
 
-    public static File levelStateExists(String username, String levelNum) {
+    public static File levelStateExists(String username, int levelNum) {
         File file = new File("data/levelStates/" + username + levelNum + ".txt");
-        if(file.exists() && !file.isDirectory()) {
+        if (file.exists() && !file.isDirectory()) {
             return file;
         }
         return null;
     }
 
     public static void deleteAllLevelStates(String username) {
-        for (int i = 1; i <= Main.LEVELS; i ++) {
+        for (int i = 1; i <= Main.LEVELS; i++) {
             File file = new File("data/levelStates/" + username + i + ".txt");
-            if(file.exists() && !file.isDirectory()) {
+            if (file.exists() && !file.isDirectory()) {
                 file.delete();
             }
         }
@@ -138,9 +140,55 @@ public abstract class FileIO {
 
     public static void deleteLevelState(String username, int levelNum) {
         File file = new File("data/levelStates/" + username + levelNum + ".txt");
-        if(file.exists() && !file.isDirectory()) {
+        if (file.exists() && !file.isDirectory()) {
             file.delete();
         }
     }
 
+    public static ArrayList<String> readHighScoreTable(String levelNum) throws IOException {
+        File file = new File("data/highScoreTables/table" + levelNum + ".txt");
+        file.createNewFile();
+        data = new ArrayList<>();
+        Scanner in = new Scanner(file);
+        while (in.hasNextLine()) {
+            data.add(in.nextLine());
+        }
+        in.close();
+        return data;
+    }
+
+    public static void updateHighScoreTable(int levelNum, String username, int score) throws IOException {
+        File file = new File("data/highScoreTables/table" + levelNum + ".txt");
+
+        if (file.length() == 0) {
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(username + " " + score + "\n");
+            fileWriter.close();
+        } else {
+            Scanner in = new Scanner(file);
+            ArrayList<String> newTable = new ArrayList<>();
+            boolean scoreWritten = false;
+            while (in.hasNextLine()) {
+                if (newTable.size() >= 10) {
+                    break;
+                }
+                line = in.nextLine();
+                if (score > Integer.parseInt(line.split(" ")[1]) && !scoreWritten) {
+                    newTable.add(username + " " + score);
+                    newTable.add(line);
+                    scoreWritten = true;
+                } else {
+                    newTable.add(line);
+                }
+            }
+
+            // clear the file
+            PrintWriter writer = new PrintWriter(file);
+            writer.print("");
+            writer.close();
+
+            Path out = Paths.get(file.getPath());
+            Files.write(out, newTable, Charset.defaultCharset());
+        }
+    }
 }

@@ -18,6 +18,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/** Main.java
+ *
+ * @author user
+ * @version 2.0
+ */
 public class Main extends Application {
 
     // get screensize of monitor
@@ -33,6 +38,7 @@ public class Main extends Application {
     public static URL fxmlUserReg = Main.class.getResource("userReg.fxml");
     public static URL fxmlLevels = Main.class.getResource("levelsScene.fxml");
     public static URL fxmlUsers = Main.class.getResource("usersScene.fxml");
+    public static URL fxmlScoreBoard = Main.class.getResource("scoreBoardScene.fxml");
 
     public static Level level;
     public static int currentLevel;
@@ -73,19 +79,29 @@ public class Main extends Application {
             level.play();
             if (level.isWon) {
                 level.stopGame();
+                //FileIO.deleteLevelState(currentProfile.getName(), currentLevel);
                 try {
+                    FileIO.updateHighScoreTable(currentLevel,
+                            currentProfile.getName(), Score.getScore());
                     stage.setScene(createScene(new FXMLLoader(fxmlWin)));
-                    controller.updateScore();
-                    controller.setLevelNumber(n);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                controller.updateScore();
+                controller.setLevelNumberLabel(n);
+                if (currentLevel >= currentProfile.getMaxLevelUnlocked()) {
+                    currentLevel++;
+                    currentProfile.setMaxLevelUnlocked(currentLevel);
+                    FileIO.writeProfiles();
+                }
+
             } else if (level.isLost) {
                 level.stopGame();
                 try {
                     stage.setScene(createScene(new FXMLLoader(fxmlLoose)));
                     controller.updateScore();
-                    controller.setLevelNumber(n);
+                    controller.setLevelNumberLabel(n);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -104,6 +120,10 @@ public class Main extends Application {
         profile.setLevelBtns(controller);
     }
 
+    /** Sets the profile of the user.
+     *
+     * @throws IOException if file is not found
+     */
     public static void setProfiles() throws IOException {
         ArrayList<String> data = FileIO.readProfiles();
         profiles = new ArrayList<>();
@@ -133,6 +153,10 @@ public class Main extends Application {
         setProfiles();
     }
 
+    /** Sets the vertical list of profiles for the user to select from.
+     *
+     * @param listView list of profiles
+     */
     public static void setProfilesList(ListView listView) {
         for (int i = profiles.size()-1; i >= 0; i--) {
             listView.getItems().add(profiles.get(i).getName());
