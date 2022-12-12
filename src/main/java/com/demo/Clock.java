@@ -1,34 +1,35 @@
 package com.demo;
 
-/** Clock.java
- * 
+/**
+ * Clock is an item which can be collected.
+ * Upon collection by the player it adds to the level timer fixed time.
+ * Upon collection by a thief it takes a fixed time from the level timer.
  * @author Leon Banks 2015257
  * @version 3.0
- *
  */
 public class Clock extends Item {
     
 	private final static int TIME = 3;
     
-	/** Sets the coordinates of the clock
-	 * 
-	 * @param x
-	 * @param y
+	/**
+     * Construct a clock with parameters.
+	 * @param x x-coordinate
+	 * @param y y-coordinate
 	 */
 	public Clock(int x, int y) {
         super(x, y);
     }
 
-	/** Gets clock from items
-	 * 
+	/**
+     * Construct an empty clock.
 	 */
     public Clock() {
 
     }
 
-    /** Constructs a collected clock
-     * 
-     * @return collected clock
+    /**
+     * Get collected.
+     * @return always true
      */
     @Override
     public boolean getCollected() {
@@ -36,9 +37,9 @@ public class Clock extends Item {
         return true;
     }
 
-    /** Constructs a stolen clock
-     * 
-     * @return stolen clock
+    /**
+     * Be stolen -> take from level timer.
+     * @return always true;
      */
     @Override
     public boolean beStolen() {
@@ -46,8 +47,8 @@ public class Clock extends Item {
         return true;
     }
 
-    /** Adds time to the collected clock
-     * 
+    /**
+     * Activate the clock -> add to level timer.
      */
     @Override
     public void activate() {

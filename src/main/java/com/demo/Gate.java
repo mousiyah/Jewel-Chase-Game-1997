@@ -1,7 +1,7 @@
 package com.demo;
 
 /**
- * Gate an item which doesnt allow any entity on it.
+ * Gate an item which doesn't allow any entity on it.
  * Can be removed by collecting matching color loot.
  * @author Emily Crow, 2142214
  * @version 2.0

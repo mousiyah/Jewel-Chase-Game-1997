@@ -40,7 +40,7 @@ public class Level {
 
     private ArrayList<String> levelData;
     private ArrayList<String> levelState;
-    private static Tile[][] tiles;
+    private Tile[][] tiles;
 
     private Player player;
     private ArrayList<MovingEntity> movingEntities;

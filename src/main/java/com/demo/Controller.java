@@ -12,25 +12,26 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/** Controller.java
- * 
- * @author user
- * @version 2.0
- *
+/**
+ * Controller is a java fxml controller which reacts to the button clicks.
+ * @author Muslima Karimova 2130288
+ * @version 1.0
  */
 public class Controller {
 
-    @FXML
-    Text score;
-
+    /**
+     * Change score on the level screen.
+     */
     @FXML
     Text levelScore;
-
-    @FXML
+    Text score;
     protected void changeScore() {
         score.setText(Integer.toString(Score.getScore()));
     }
 
+    /**
+     * Change progressBar on the level screen.
+     */
     @FXML
     ProgressBar progressBar;
     protected void changeProgressBar(int timeLeft, int timeLimit) {
@@ -39,6 +40,9 @@ public class Controller {
         progressBar.setAccessibleText(timeLeft + " seconds");
     }
 
+    /**
+     * Update Level Score.
+     */
     @FXML
     protected void updateScore() {
         levelScore.setText(Integer.toString(Score.getScore()));
@@ -46,14 +50,19 @@ public class Controller {
         Profile.updateProfilesData();
     }
 
+    /**
+     * Set level number.
+     * @param n level number
+     */
     @FXML
     Text levelNumber;
-
-    @FXML
-    public void setLevelNumber(int n) {
+    public void setLevelNumberLabel(int n) {
         levelNumber.setText(Integer.toString(n));
     }
 
+    /**
+     * Change progressBar on the level screen.
+     */
     @FXML
     public void replay(ActionEvent event) throws IOException {
         Main.level.stopGame();
@@ -62,6 +71,9 @@ public class Controller {
                 Main.currentLevel);
     }
 
+    /**
+     * Go to the next level.
+     */
     @FXML
     public void nextLevel(ActionEvent event) throws IOException {
         if (Main.currentLevel <= Main.LEVELS) {
@@ -72,6 +84,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Go to the home scene.
+     */
     @FXML
     public void goHome(ActionEvent event) throws IOException {
         if (Main.level != null) {
@@ -80,6 +95,9 @@ public class Controller {
         Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlHome)));
     }
 
+    /**
+     * Go back to the levels scene.
+     */
     @FXML
     public void goLevels(ActionEvent event) throws IOException {
         Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlLevels)));
@@ -88,16 +106,16 @@ public class Controller {
     }
 
 
+    // level control buttons
     @FXML
     Button resumeGameBtn;
-
-    @FXML
     Button pauseGameBtn;
-
-    @FXML
     Button saveGameStateBtn;
 
 
+    /**
+     * Resume game.
+     */
     @FXML
     public void resumeGame(ActionEvent event) {
         Main.level.resumeGame();
@@ -106,6 +124,9 @@ public class Controller {
         saveGameStateBtn.setDisable(true);
     }
 
+    /**
+     * Pause game.
+     */
     @FXML
     public void pauseGame(ActionEvent event) {
         Main.level.pauseGame();
@@ -114,30 +135,36 @@ public class Controller {
         saveGameStateBtn.setDisable(false);
     }
 
+    /**
+     * Save the game state.
+     */
     @FXML
     public void saveGameState(ActionEvent event) throws IOException {
         Main.saveGameState();
         goHome(event);
     }
 
+    /**
+     * Create new user.
+     */
     @FXML
     public void newUserBtn(ActionEvent event) throws IOException {
         Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlUserReg)));
     }
 
-    @FXML
-    public void scoreBoardBtn(ActionEvent event) {
-    }
-
+    /**
+     * Go to the users scene.
+     */
     @FXML
     ListView usersList;
-
-    @FXML
     public void usersBtn(ActionEvent event) throws IOException {
         Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlUsers)));
         Main.setProfilesList(usersList);
     }
 
+    /**
+     * Open levels scene.
+     */
     @FXML
     public void openLevelsScene() throws IOException {
         if (usersList.getSelectionModel().getSelectedItem() != null) {
@@ -145,6 +172,9 @@ public class Controller {
         }
     }
 
+    /**
+     * Delete user.
+     */
     @FXML
     public void deleteUser() throws IOException {
         if (usersList.getSelectionModel().getSelectedItem() != null) {
@@ -155,31 +185,26 @@ public class Controller {
         }
     }
 
+    /**
+     * Create new user.
+     */
     @FXML
     TextField newUserName;
-
-    @FXML
     public void createNewUser(ActionEvent event) throws IOException {
         if (!newUserName.getText().isEmpty()) {
             Main.createNewProfile(newUserName.getText());
         }
     }
 
+    // level buttons
     @FXML
     Button levelbtn1;
-    @FXML
     Button levelbtn2;
-    @FXML
     Button levelbtn3;
-    @FXML
     Button levelbtn4;
-    @FXML
     Button levelbtn5;
-    @FXML
     Button levelbtn6;
-
     public ArrayList<Button> levelBtns;
-
     public void setLevelBtns() {
         levelBtns = new ArrayList<>();
         levelBtns.add(levelbtn1);
@@ -189,12 +214,13 @@ public class Controller {
         levelBtns.add(levelbtn5);
         levelBtns.add(levelbtn6);
     }
-
     public ArrayList<Button> getLevelBtns() {
         return levelBtns;
     }
 
-
+    /**
+     * Open level on the level button click.
+     */
     @FXML
     public void openLevel(ActionEvent event) throws IOException {
         Button levelBtn = (Button) event.getTarget();
@@ -203,14 +229,36 @@ public class Controller {
 
         File file = null;
         if (Main.currentProfile != null) {
-            file = FileIO.levelStateExists(Main.currentProfile.getName(),
-                    String.valueOf(levelNum));
+            file = FileIO.levelStateExists(Main.currentProfile.getName(), levelNum);
         }
 
         if (file == null) {
             Main.openLevel(levelNum);
         } else {
             Main.playGameFromSavedState(file, levelNum);
+        }
+    }
+
+    /**
+     * Go score board scene.
+     */
+    @FXML
+    public void scoreBoardBtn(ActionEvent event) throws IOException {
+        Main.stage.setScene(Main.createScene(new FXMLLoader(Main.fxmlScoreBoard)));
+    }
+
+    /**
+     * Show high score table.
+     */
+    @FXML
+    ListView highScoreTable;
+    public void showHighScoreTable(ActionEvent event) throws IOException {
+        highScoreTable.getItems().clear();
+        Button levelBtn = (Button) event.getTarget();
+        String levelNum = levelBtn.getId().replaceAll("levelbtn", "");
+        ArrayList<String> table = FileIO.readHighScoreTable(levelNum);
+        for (int i = 0; i < table.size(); i++) {
+            highScoreTable.getItems().add(table.get(i));
         }
     }
 }
