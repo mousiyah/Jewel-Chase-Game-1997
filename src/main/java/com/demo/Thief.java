@@ -1,11 +1,10 @@
 package com.demo;
 
 /**
-* 
-* @author 
-* @author Fidel Little 2123494
-* @author 
-* @version 2.0
+ * Abstract class Thief gives thieves ability to collect items.
+ * @author Fidel Little 2123494
+ * @author Muslima Karimova 2130288
+ * @version 2.0
 */
 
 public abstract class Thief extends MovingEntity {
@@ -13,9 +12,9 @@ public abstract class Thief extends MovingEntity {
     protected Thief() {}
 
     /**
-    * If there is an item on the tile it will collect it
-    * If there is a bomb on the tile it will activate it
-    * @param tile
+     * If there is an collectable item on the tile it will steal it.
+     * If the tile is a bomb area it will activate the bomb.
+     * @param tile
     */
     @Override
     protected void collectItem(Tile tile) {

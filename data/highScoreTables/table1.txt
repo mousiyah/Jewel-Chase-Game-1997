@@ -1,2 +1,3 @@
 musi 99
+musi 3
 candy 1

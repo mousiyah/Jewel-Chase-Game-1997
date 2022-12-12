@@ -7,11 +7,9 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 
 /**
-* 
-* @author 
-* @author 
-* @author Fidel Little 2123494
-* @version 2.0
+ * Tile class represents every single tile on the level.
+ * @author Muslima Karimova 2120288
+ * @version 2.0
 */
 
 public class Tile {
@@ -25,11 +23,10 @@ public class Tile {
     private Item bombArea;
 
     /**
-    * 
-    * 
-    * @param colours used on the tile quarters
-    * @param x_coordinates
-    * @param y_coordinates
+     * Tile constructor.
+     * @param colors used on the tile quarters
+     * @param x
+     * @param y
     */
     public Tile(String colors, int x, int y) {
         this.colors = colors.toCharArray();
@@ -38,12 +35,11 @@ public class Tile {
     }
 
     /**
-    * 
-    * 
-    * @param graphics context tool
-    * @param x_coordinates
-    * @param y_coordinates
-    * @param size of full tile
+     * Draw a single square tile which consists of four colors.
+     * @param gc context tool
+     * @param x
+     * @param y
+     * @param cellSize of full tile
     */
     public void drawTile(GraphicsContext gc, int x, int y, int cellSize) {
         double halfCellSize = (cellSize) / 2 - 0.4;
@@ -70,9 +66,8 @@ public class Tile {
     }
 
     /**
-    * 
-    * 
-    * @param colour reference character
+     * Get color from char.
+     * @param C color character
     */
     public Color getColorFromChar(char C) {
         return switch (C) {
@@ -87,11 +82,10 @@ public class Tile {
     }
 
     /**
-    * 
-    * 
-    * @param tile
-    * @param tile
-    * @return true if two parameter tiles share any coloured quarters
+     * Get two tiles and check if they have a common color.
+     * @param tile1
+     * @param tile2
+     * @return true if two parameter tiles share any coloured quarters
     */
     public static boolean hasCommonColor(Tile tile1, Tile tile2) {
         for (int i = 0; i < tile1.getColors().length; i++) {
@@ -105,9 +99,8 @@ public class Tile {
     }
 
     /**
-    * 
-    * 
-    * @param graphics context tool
+     * Draw an item on the tile.
+     * @param gc context tool
     */
     private void drawItem(GraphicsContext gc) {
         if (hasItem()) {
@@ -117,22 +110,22 @@ public class Tile {
     }
 
     /**
-    * @param item
+     * @param item
     */
     public void setItem(Item item) {
         this.item = item;
     }
 
     /**
-    * @return item
+     * @return item
     */
     public Item getItem() {
         return item;
     }
 
     /**
-    * 
-    * 
+     * Set collectable items to null.
+     * If it's not an active Bomb collect it.
     */
     public void setItemToNull() {
         if (item instanceof Bomb) {
@@ -146,84 +139,84 @@ public class Tile {
     }
 
     /**
-    * @return true if the current tile has an item on it
+     * @return true if the current tile has an item on it
     */
     public boolean hasItem() {
         return item != null;
     }
 
     /**
-    * @return true if the current tile is a bomb area
+     * @return true if the current tile is a bomb area
     */
     public boolean isBombArea() {
         return bombArea != null;
     }
     
     /**
-    * @return list of all object coordinates
+     * @return list of all object coordinates
     */
     public static ArrayList<Pair> getAllObjectsCoordinates() {
         return allObjectsCoordinates;
     }
 
     /**
-    * @param coordinates of all objects
+     * @param allObjectsCoordinates of all objects
     */
     public static void setAllObjectsCoordinates(ArrayList<Pair> allObjectsCoordinates) {
         Tile.allObjectsCoordinates = allObjectsCoordinates;
     }
 
     /**
-    * @return current tile colours
+     * @return current tile colours
     */
     public char[] getColors() {
         return colors;
     }
 
     /**
-    * @param colour for each quarter of the tile
+     * @param colors set colors
     */
     public void setColors(char[] colors) {
         this.colors = colors;
     }
 
     /**
-    * @return x coordinate
+     * @return x coordinate
     */
     public int getX() {
         return x;
     }
 
     /**
-    * @param x_coordinates
+     * @param x coordinate
     */
     public void setX(int x) {
         this.x = x;
     }
 
     /**
-    * @return y coordinates
+     * @return y coordinate
     */
     public int getY() {
         return y;
     }
 
     /**
-    * @param y_coordinates
+     * @param y coordinate
     */
     public void setY(int y) {
         this.y = y;
     }
 
     /**
-    * @return bomb area
+     * @return bombArea
     */
     public Item getBombArea() {
         return bombArea;
     }
 
     /**
-    * @param bomb_area
+     * @param bombArea
     */
     public void setBombArea(Item bombArea) {
         this.bombArea = bombArea;

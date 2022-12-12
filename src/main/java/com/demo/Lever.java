@@ -1,14 +1,15 @@
 package com.demo;
 
-/** Lever.java
- *
+/**
+ * Lever is a key collected by player and thieves.
+ * Upon collection by player matching color gates disappear.
  * @author Emily Crow, 2142214
  * @version 2.0
  */
 public class Lever extends Item {
 
-    /** Constructs a lever.
-     *
+    /**
+     * Constructs a lever.
      * @param x x-coordinate for the lever
      * @param y y-coordinate for the lever
      * @param type String indicating the colour of the lever
@@ -18,16 +19,16 @@ public class Lever extends Item {
         setTypes(new String[]{"blue", "green", "red"});
     }
 
-    /** Constructs a lever.
-     *
+    /**
+     * Constructs an empty lever.
      */
     public Lever() {
         setTypes(new String[]{"blue", "green", "red"});
     }
 
-    /** Returns if lever is collectable.
-     *
-     * @return always returns true
+    /**
+     * Get collected.
+     * @return always true
      */
     @Override
     public boolean getCollected() {
@@ -36,12 +37,20 @@ public class Lever extends Item {
         return true;
     }
 
+    /**
+     * Be stolen.
+     * @return always true
+     */
     @Override
     public boolean beStolen() {
         getCollected();
         return true;
     }
 
+    /**
+     * Activate -> make Gates with matching color disappear
+     * @return always true
+     */
     @Override
     public void activate() {
         for(int i = 0; i < getTiles().length; i++){

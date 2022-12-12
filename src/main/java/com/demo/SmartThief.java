@@ -4,11 +4,11 @@ import javafx.scene.input.KeyCode;
 import java.util.ArrayList;
 
 /**
-* 
-* @author Fidel Little 2123494
-* @author
-* @author 
-* @version 2.0
+ * Smart Thief is moves towards closest loots and levers.
+ * Upon collecting all loots and levers moves random direction.
+ * Smart Thief implementation failed. Movement is the same as Floor Following Thief.
+ * @author Muslima Karimova 2130288
+ * @version 2.0
 */
 
 public class SmartThief extends Thief {
@@ -16,17 +16,16 @@ public class SmartThief extends Thief {
     private ArrayList<Loot> loots;
 
     /**
-    * Contructs smart thief entity and sets default speed
-    * 
+     * Contruct smart thief entity and set default speed.
     */
     public SmartThief() {
         setSpeed(600);
     }
 
     /**
-    * Moves the thief on the game board according to direction key
-    * Overrides abstract move method
-    * @param key
+     * Move the thief on the game board according to direction key.
+     * Overrides abstract move method.
+     * @param key
     */
     @Override
     public void move(KeyCode key) {
@@ -44,9 +43,7 @@ public class SmartThief extends Thief {
     }
 
     /**
-    * turns the NPC in the first direction it can move in
-    * 
-    * @param score_increase
+     * Turn the NPC in the first direction it can move in.
     */
     public void turnDirection() {
         if (getDirection() == KeyCode.RIGHT) {
@@ -93,9 +90,8 @@ public class SmartThief extends Thief {
     }
 
     /**
-    * Determines if thief can turn in key direction without leaving bounds or breaking rules
-    * 
-    * @param key
+     * Determine if thief can turn in key direction without leaving bounds or breaking rules.
+     * @param key
     */
     public boolean canTurn(KeyCode key) {
         if (key == KeyCode.UP) {

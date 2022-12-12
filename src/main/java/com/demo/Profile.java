@@ -2,10 +2,8 @@ package com.demo;
 import java.io.IOException;
 
 /**
-* 
-* @author
-* @author
-* @author 
+* Profile class represents game user's profile.
+* @author Muslima Karimova 2130288
 * @version 2.0
 */
 
@@ -15,8 +13,7 @@ public class Profile {
     private int score;
 
     /**
-    *
-    * 
+    * Constructor to create new Profile.
     * @param name
     * @throws IOException
     * @see IOException
@@ -29,10 +26,9 @@ public class Profile {
     }
 
     /**
-    *
-    * 
+    * Constructor to create a profile which exists in the system.
     * @param name
-    * @param level_reached
+    * @param maxLevelUnlocked
     * @param score
     * @throws IOException
     * @see IOException
@@ -44,16 +40,7 @@ public class Profile {
     }
 
     /**
-    *
-    * 
-    */
-    public static void updateProfilesData() {
-        FileIO.writeProfiles();
-    }
-
-    /**
-    *
-    * 
+    * Save profile data to the file.
     */
     public void saveProfileData() {
         FileIO.addToTheFile("profiles.txt",
@@ -61,8 +48,14 @@ public class Profile {
     }
 
     /**
-    *
-    * 
+     * Write profile data to the file.
+     */
+    public static void updateProfilesData() {
+        FileIO.writeProfiles();
+    }
+
+    /**
+    * Set disabled/enabled level buttons depending on maximum level unlocked.
     * @param controller
     * @throws IOException
     * @see IOException
@@ -100,7 +93,7 @@ public class Profile {
     }
 
     /**
-    * @param max level reached by player
+    * @param maxLevelUnlocked maximum level reached by player
     */
     public void setMaxLevelUnlocked(int maxLevelUnlocked) {
         this.maxLevelUnlocked = maxLevelUnlocked;

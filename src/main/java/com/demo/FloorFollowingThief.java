@@ -5,12 +5,26 @@ import javafx.animation.Timeline;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
+/**
+ * Floor Following Thief follows assigned color on the edges of the tiles.
+ * @author Muslima Karimova 2130288
+ * @version 2.0
+ */
+
 public class FloorFollowingThief extends Thief {
 
+    /**
+      * Contruct smart thief entity and set default speed.
+     */
     public FloorFollowingThief() {
         setSpeed(600);
     }
 
+    /**
+      * Move the thief on the game board according to direction key.
+      * Overrides abstract move method.
+      * @param key
+     */
     @Override
     public void move(KeyCode key) {
         turnDirection();
@@ -26,7 +40,9 @@ public class FloorFollowingThief extends Thief {
         collectItem(getTiles()[getY()][getX()]);
     }
 
-
+    /**
+      * Turn the NPC in the first direction it can move in.
+     */
     public void turnDirection(){
 
         // facing right
@@ -79,7 +95,10 @@ public class FloorFollowingThief extends Thief {
         }
     }
 
-
+    /**
+      * Determine if thief can turn in key direction without leaving bounds or breaking rules.
+      * @param key
+     */
     public boolean canTurn(KeyCode key) {
         if (key == KeyCode.UP) {
             return !isTopEdge() &&

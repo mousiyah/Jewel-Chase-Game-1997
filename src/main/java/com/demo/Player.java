@@ -3,10 +3,8 @@ package com.demo;
 import javafx.scene.input.KeyCode;
 
 /**
-* 
-* @author
-* @author
-* @author 
+* Player is a moving entity which can move on the key click action.
+* @author Muslima Karimova 2130288
 * @version 2.0
 */
 
@@ -16,16 +14,14 @@ public class Player extends MovingEntity{
     private boolean isDead;
 
     /**
-    * 
-    * 
+    * Constructor. Set player isn't dead.
     */
     public Player() {
         isDead = false;
     }
 
     /**
-    * 
-    * 
+    * Move from tile to tile on key direction.
     * @param key
     */
     @Override
@@ -39,8 +35,8 @@ public class Player extends MovingEntity{
     }
 
     /**
-    * 
-    * 
+     * If there is an collectable item on the tile it will collect it.
+     * If the tile is a bomb area it will activate the bomb.
     * @param tile
     */
     @Override
@@ -59,11 +55,10 @@ public class Player extends MovingEntity{
     }
 
     /**
-    *
-    * 
+    * Calculate the next tile on which player can move from current tile.
     * @param key
-    * @param x_coordinate
-    * @param y_coordinate
+    * @param x
+    * @param y
     * @return tile
     */
     public Tile nextTile(KeyCode key, int x, int y){
@@ -108,7 +103,7 @@ public class Player extends MovingEntity{
     }
 
     /**
-    * @param boolean
+    * @param dead
     */
     public void setDead(boolean dead) {
         isDead = dead;
