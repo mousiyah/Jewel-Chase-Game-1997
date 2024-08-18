@@ -1,6 +1,11 @@
 # Jewel Chase
 Recreation of the 1997 game 'Jewel Chase' for Swansea University module CS-230, 2022.
 
+![1700362039115](https://github.com/user-attachments/assets/e00d4004-8964-4363-97ac-cd943e573cab)
+
+![image](https://github.com/user-attachments/assets/23cca7cd-f327-4a8e-9d06-04a6f4c955ef)
+
+
 ---
 ## Setup
 In order to be able to edit this project, your IDE must be configured correctly.
